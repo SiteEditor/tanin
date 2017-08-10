@@ -187,6 +187,28 @@ function tanin_per_page_query( $query ) {
 
 }
 
+function tanin_one_click_checkout(){
+
+    if( !is_admin() && isset( $_REQUEST['tanin_quick_checkout'] ) && $_REQUEST['tanin_quick_checkout'] == 1 && isset( $_REQUEST['add_to_cart'] ) ){
+
+        $product_id = (int)$_REQUEST['add_to_cart'];
+
+        WC()->cart->empty_cart();
+
+        WC()->cart->add_to_cart( $product_id );
+
+        $wo_checkout_url = WC()->cart->get_checkout_url();
+
+        wp_safe_redirect( $wo_checkout_url );
+
+        exit();
+
+    }
+
+}
+
+add_action( 'wp_loaded' , 'tanin_one_click_checkout' );
+
 
 
 
