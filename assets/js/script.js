@@ -229,6 +229,54 @@
     });
 
 
+    var ActiveLanguage = function() {
+        $('.active-language').on( "click", function(){
+            $("body").addClass("remove-intro");
+        });
+    };
+
+    ActiveLanguage();    
+
+/***************************/
+
+    var scrollbarContainer =  $(".sed-shop-faq-wrapper"),
+        scrollbarHeight =  $( window ).height() - 100;  
+
+    scrollbarContainer.css({
+        height : scrollbarHeight + 'px', 
+    });
+    
+
+    scrollbarContainer.mCustomScrollbar({
+        autoHideScrollbar:true ,
+        advanced:{
+            updateOnBrowserResize:true, /*update scrollbars on browser resize (for layouts based on percentages): boolean*/
+            updateOnContentResize:true,
+        },
+        scrollButtons:{
+            enable:false
+        },
+    });
+
+    var scrollbarContainer_2 =  $(".sed-shop-faq-single"),
+        scrollbarHeight_2 =  $( window ).height() - 100;  
+
+    scrollbarContainer_2.css({
+        height : scrollbarHeight_2 + 'px', 
+    });
+    
+
+    scrollbarContainer_2.mCustomScrollbar({
+        autoHideScrollbar:true ,
+        advanced:{
+            updateOnBrowserResize:true, /*update scrollbars on browser resize (for layouts based on percentages): boolean*/
+            updateOnContentResize:true,
+        },
+        scrollButtons:{
+            enable:false
+        },
+    });
+
 
     var removePreloader = function() {
         setTimeout(function() {
@@ -236,16 +284,7 @@
         }, 1500);
     };
 
-    removePreloader();
-
-
-    var ActiveLanguage = function() {
-        $('.active-language').on( "click", function(){
-            $("body").addClass("remove-intro");
-        });
-    };
-
-    ActiveLanguage();      
+    removePreloader();  
 
 
 })(jQuery);
