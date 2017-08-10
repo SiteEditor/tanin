@@ -1305,6 +1305,172 @@ body .in-btn-back-module #return-to-top i:hover {
     padding: 20px 15px;
 }
 
+/************************/
+
+ul.products li.product .button,
+ul.products li.product .button:hover {
+    box-shadow: none;
+}
+
+.woocommerce ul.products li.product, 
+.woocommerce-page ul.products li.product {
+	border: 1px solid #f2f2f2;
+    padding: 8px;
+    margin: 0 -1px 15px 0;
+    width: 25%;
+    position: relative;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    -ms-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;  
+}
+
+.woocommerce ul.products li.product:hover, 
+.woocommerce-page ul.products li.product:hover {
+    border-color: #bbb;
+    z-index: 1;
+}
+
+.woocommerce ul.products li.product img {
+    vertical-align: top;    
+    width: 100%;
+    height: auto;
+}
+
+.woocommerce ul.products li.product .woocommerce-loop-product__title {
+    margin: 0 0 5px;
+    padding: 5px 0;
+    font-size: 15px;
+    border-bottom: 1px solid #ddd;    
+    text-transform: initial;    
+    letter-spacing: 0;
+}
+
+.woocommerce ul.products li.product .price {
+    margin-bottom: 4px;
+    font-weight: bold;
+}
+
+.woocommerce ul.products li.product .price ins {
+    background: transparent;
+}
+
+.woocommerce ul.products li.product .price ins .amount {
+    color: #944248;
+}
+
+.woocommerce ul.products li.product .price del {
+    opacity: .4;
+    color: #000;    
+    font-size: 13px;
+}
+
+.woocommerce ul.products li.product .product-add_to_cart-part {
+    width: 100%;
+    margin-top: 14px;
+}
+
+.woocommerce ul.products li.product .tanin-more-details-button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #f1f1f3;
+    border: 1px solid #ddd;
+    font-size: 12px;
+    padding: 3px 10px;
+    line-height: 12px;
+    color: #03936f;
+}
+
+.woocommerce ul.products li.product .tanin-more-details-button:before {
+    content: "\f07a" ; /* "\f022"; */
+    font-family: FontAwesome;
+    font-size: 14px;
+    vertical-align: middle;    
+    padding: 0 5px;
+}
+
+.woocommerce ul.products li.product .onsale {
+    top: 10px;
+    left: 10px;
+}
+
+.woocommerce ul.products li.product .woocommerce-LoopProduct-link {
+    color: #333;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

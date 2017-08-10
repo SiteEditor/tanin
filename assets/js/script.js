@@ -240,7 +240,7 @@
 /***************************/
 
     var scrollbarContainer =  $(".sed-shop-faq-wrapper"),
-        scrollbarHeight =  $( window ).height() - 100;  
+        scrollbarHeight =  $( window ).height() - 200;  
 
     scrollbarContainer.css({
         height : scrollbarHeight + 'px', 
@@ -259,7 +259,7 @@
     });
 
     var scrollbarContainer_2 =  $(".sed-shop-faq-single"),
-        scrollbarHeight_2 =  $( window ).height() - 100;  
+        scrollbarHeight_2 =  $( window ).height() - 200;  
 
     scrollbarContainer_2.css({
         height : scrollbarHeight_2 + 'px', 
