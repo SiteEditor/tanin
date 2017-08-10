@@ -210,5 +210,20 @@ function tanin_one_click_checkout(){
 add_action( 'wp_loaded' , 'tanin_one_click_checkout' );
 
 
+function tanin_add_google_font( $google_fonts ){
+
+    $google_fonts["David Libre"] = "David Libre";
+
+    return $google_fonts;
+
+}
+
+add_filter( 'sed_google_fonts_filter' , 'tanin_add_google_font' );
+
+/**
+ * Site Editor Shop WooCommerce
+ */
+require dirname(__FILE__) . '/inc/woocommerce.php';
+
 
 
