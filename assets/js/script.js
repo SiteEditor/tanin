@@ -237,7 +237,39 @@
 
     ActiveLanguage();    
 
-/***************************/
+/***************************************************************************************************************************************/
+
+
+    /**
+     * Vertical Menu Accordion
+     */
+
+    var _SedVMenu = $('#sed_vertical_header_vertical_menu');
+
+    _SedVMenu.find('li.menu-item.menu-item-has-children > a').click(function(e){
+
+        e.preventDefault();
+
+        var $this = $(this);
+
+        if ($this.next().hasClass('active')) {
+            $this.next().removeClass('active');
+            $this.next().slideUp(350);
+            $this.removeClass('active');
+        } else {
+            $this.parent().parent().find('li .sub-menu').removeClass('active');
+            $this.parent().parent().find('li .sub-menu').slideUp(350);
+            $this.next().addClass('active');
+            $this.next().slideDown(350);
+            $this.parent().parent().find('li > a').removeClass('active');
+            $this.addClass('active');
+        }
+
+    });
+
+    /**
+     * Vertical Menu Accordion
+     */
 
     var scrollbarContainer =  $(".sed-shop-faq-wrapper"),
         scrollbarHeight =  $( window ).height() - 200;  
