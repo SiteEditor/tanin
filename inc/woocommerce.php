@@ -194,15 +194,8 @@ class SedShopWoocommerceArchiveModule{
 
         add_action( 'woocommerce_after_shop_loop_item' , array( __CLASS__ , 'add_more_detail' ) , 10 );
 
-        //add_action( 'woocommerce_shop_loop_item_title' , array( __CLASS__ , 'add_sub_title' ) , 15 );
-
     }
 
-    public static function add_sub_title(){
-
-        wc_get_template( 'loop/sub_title.php' );
-
-    }
 
     public static function add_more_detail(){
 
