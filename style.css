@@ -59,6 +59,9 @@ body{
     color: #88317f;
 }
 
+.text-second-main:hover,
+.text-second-main:focus,
+.text-second-main:active
 .text-second-main-active:hover,
 .text-second-main-active:focus,
 .text-second-main-active:active {
@@ -119,6 +122,14 @@ body{
 .bg-black {
   background-color: #242021;
 } 
+
+/****************/
+
+body button, 
+body input[type="button"], 
+body input[type="submit"] {
+    line-height: 14px;
+}
 
 
 h5, .main-navigation ul ul a, .site-title, .page .panel-content .recent-posts .entry-title, .page .panel-content .entry-title, .page-title, body.page:not(.twentyseventeen-front-page) .entry-title, .entry-meta, .entry-footer .cat-links, .entry-footer .tags-links, .nav-subtitle, .comment-metadata, h2.widget-title, .widget_rss .rss-date, .widget_rss li cite, .site-content .wp-playlist-current-item .wp-playlist-item-artist, .twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel .twentyseventeen-panel-title, .sed-app-editor.twentyseventeen-front-page .twentyseventeen-panel .twentyseventeen-panel-title {
@@ -1007,6 +1018,54 @@ a:active {
 }
 
 
+/*****************************/
+
+body .product-cat-justified .tg-item:hover .tg-item-media-holder {
+    -webkit-transform: translateY(0px);
+    -moz-transform: translateY(0px);
+    -ms-transform: translateY(0px);
+    -o-transform: translateY(0px);
+    transform: translateY(0px);
+}
+body .product-cat-justified .tg-item-content {
+    background: transparent;
+    text-transform: uppercase;
+}
+
+body .product-cat-justified .tg-item-content .tg-item-title a {
+    background-color: #e5e5e5;
+    margin: 0 auto !important;
+    padding: 15px !important;
+    display: block;
+}
+
+body .product-cat-justified .tg-item-content .tg-item-title * {
+   color: #88317f;
+}
+
+body .product-cat-justified .tg-item-media-inner {
+    -webkit-transition: all 500ms;
+    -moz-transition: all 500ms;
+    -ms-transition: all 500ms;
+    -o-transition: all 500ms;
+    transition: all 500ms; 
+    opacity: 1;
+}
+
+body .product-cat-justified .tg-item:hover .tg-item-media-inner {
+    opacity: 0.5;
+}
+
+body .product-cat-justified .tg-item-overlay ,
+body .product-cat-justified .tg-cats-holder {
+    display: none !important;
+}
+
+
+
+
+
+
 /*--------------------------------------------------------------
 6.0 Forms
 --------------------------------------------------------------*/
@@ -1226,6 +1285,15 @@ body .in-btn-back-module #return-to-top i:hover {
 
 /************************************/
 
+.module-posts-skin1 .module-posts-wrap.row {
+    margin-left: -7px; 
+    margin-right: -7px;
+}
+
+.module-posts-skin1 .image-content-box {
+    padding: 7px;
+}
+
 .image-content-box-skin1 {
     position: relative;
     text-align: center;
@@ -1233,11 +1301,12 @@ body .in-btn-back-module #return-to-top i:hover {
 
 
 .image-content-box-skin1 .icb-wrapper {
-    max-width: 500px;
+    max-width: 350px;
     display: block;
     margin: 0 auto;
     border: 1px solid #d0d0d0;
     padding: 10px;
+    color: #333;
 }
 
 .image-content-box-skin1 .icb-img {
@@ -1283,6 +1352,13 @@ body .in-btn-back-module #return-to-top i:hover {
     padding: 0;
 }
 
+.image-content-box-skin1 .icb-heading h4 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block;
+}
+
 .image-content-box-skin1 .icb-wrapper:hover .icb-heading {
     background-color: #f8f8f8;
 }
@@ -1292,7 +1368,7 @@ body .in-btn-back-module #return-to-top i:hover {
 }
 
 .image-content-box-skin1 .icb-content {
-    padding: 15px 10px 10px;
+    padding: 10px 10px 5px;
 }
 
 .image-content-box-skin1 .icb-content * {
@@ -1304,6 +1380,15 @@ body .in-btn-back-module #return-to-top i:hover {
 
 
 /************************************/
+
+.module-posts-skin2 .module-posts-wrap.row {
+    margin-left: 0; 
+    margin-right: 0;
+}
+
+.module-posts-skin2 .image-content-box {
+    padding: 0px;
+}
 
 .image-content-box-skin2 {
     position: relative;
@@ -1364,7 +1449,8 @@ body .in-btn-back-module #return-to-top i:hover {
 
 .image-content-box-skin2 .icb-img .info-content {
     font-size: 13px;
-    line-height: 1.5;
+    line-height: 1.5;    
+    text-align: justify;
 }
 
 .image-content-box-skin2 .icb-img .info-social-bar {
@@ -1397,6 +1483,16 @@ body .in-btn-back-module #return-to-top i:hover {
 
 /************************************/
 
+
+.module-subscription .image-content-box.row {
+    margin-left: -7px; 
+    margin-right: -7px;
+}
+
+.module-subscription .image-content-box-skin3 { 
+    padding: 7px;
+}
+
 .image-content-box-skin3 { 
     position: relative;
     text-align: center;
@@ -1412,7 +1508,7 @@ body .in-btn-back-module #return-to-top i:hover {
 
 .image-content-box-skin3 .icb-img {
     position: relative;
-    padding: 20px 0 50px;
+    padding: 10px 0 40px;
 }
 
 .image-content-box-skin3 .icb-img img {
@@ -1432,10 +1528,19 @@ body .in-btn-back-module #return-to-top i:hover {
     padding: 0;
 }
 
+.image-content-box-skin3 .icb-content-inner {
+    text-align: justify;
+    text-align-last: center;
+}
+
 .image-content-box-skin3 .icb-content-inner * {  
     margin: 0;
     padding: 0;
 } 
+
+.image-content-box-skin3 .icb-heading h4 {
+    text-transform: uppercase;
+}
 
 .image-content-box-skin3 .icb-subscribe-plan {
     color: #019670;
@@ -1586,6 +1691,16 @@ body .in-btn-back-module #return-to-top i:hover {
     padding: 20px 15px;
 }
 
+.sed-shop-faq-wrapper .faq-item-content ol, 
+.sed-shop-faq-wrapper .faq-item-content ul {
+    padding-left: 20px;
+}
+
+.sed-shop-faq-wrapper .faq-item-content .button {
+    margin-top: 10px;
+    display: block;
+}
+
 .sed-shop-faq-wrapper .faq-content-inner *:last-child {
     margin-bottom: 0;
 }
@@ -1647,6 +1762,11 @@ body .in-btn-back-module #return-to-top i:hover {
 .sed-shop-faq-single .faq-content {
     background-color: transparent;
     padding: 20px 15px;
+}
+
+.sed-shop-faq-single .faq-content ol, 
+.sed-shop-faq-single .faq-content ul {
+    padding-left: 20px;
 }
 
 /************************/
@@ -1770,6 +1890,32 @@ ul.products li.product .button:hover {
     text-transform: uppercase;
 }
 
+/**********************/
+
+.woocommerce .track_order {
+    text-align: center;
+}
+
+.woocommerce .track_order .form-row {
+    max-width: 400px;
+    display: block;
+    margin: 0 auto 20px;
+}
+
+.woocommerce .track_order label {
+    color: #019670;
+    text-transform: uppercase;
+}
+
+.woocommerce .track_order input.input-text {
+    background: #fbfbfb;    
+    text-align: center;
+    line-height: 34px;
+}
+
+.woocommerce .track_order input.button {
+    text-transform: uppercase;
+}
 
 
 /*========================================================================================================================================================*/

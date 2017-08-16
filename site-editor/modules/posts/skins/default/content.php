@@ -1,25 +1,16 @@
-<div class="slid-item">
+<li class="entry-item collage-item clearfix post item">
 
-    <div class="title"><h3><?php the_title(); ?></h3></div>
+    <?php
 
-    <div class="spr-general"></div>
+    $post_link = apply_filters( "sed_posts_modules_post_permalink" , get_permalink() );
 
-    <div class="desc">
-        <?php
+    ?>
 
-        /*$post_content = get_the_excerpt();
+    <a href="<?php echo esc_attr( $post_link );?>">
 
-        if( strlen( $post_content ) > $excerpt_length ){
+        <?php the_title();?>
 
-            $post_content = mb_substr( get_the_title(), 0, $excerpt_length ) . "...";
+    </a>
 
-        }
+</li>
 
-        echo $post_content;*/
-
-        the_content();
-
-        ?>
-    </div>
-
-</div>

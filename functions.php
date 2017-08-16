@@ -79,8 +79,8 @@ function sed_tanin_add_modules( $modules ){
 
     global $sed_pb_modules;
 
-    //$module_name = "themes/tanin/site-editor/modules/posts/posts.php";
-    //$modules[$module_name] = $sed_pb_modules->get_module_data(get_stylesheet_directory() . '/site-editor/modules/posts/posts.php', true, true);
+    $module_name = "themes/tanin/site-editor/modules/posts/posts.php";
+    $modules[$module_name] = $sed_pb_modules->get_module_data(get_stylesheet_directory() . '/site-editor/modules/posts/posts.php', true, true);
 
     //$module_name = "themes/tanin/site-editor/modules/tanin-products/tanin-products.php";
     //$modules[$module_name] = $sed_pb_modules->get_module_data(get_stylesheet_directory() . '/site-editor/modules/tanin-products/tanin-products.php', true, true);
@@ -91,6 +91,10 @@ function sed_tanin_add_modules( $modules ){
     
     $module_name = "themes/tanin/site-editor/modules/vertical-header/vertical-header.php";
     $modules[$module_name ] = $sed_pb_modules->get_module_data(get_stylesheet_directory() . '/site-editor/modules/vertical-header/vertical-header.php', true, true);
+
+    
+    $module_name = "themes/tanin/site-editor/modules/subscription/subscription.php";
+    $modules[$module_name ] = $sed_pb_modules->get_module_data(get_stylesheet_directory() . '/site-editor/modules/subscription/subscription.php', true, true);     
     
     return $modules;
 

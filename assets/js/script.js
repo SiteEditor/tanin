@@ -310,6 +310,26 @@
     });
 
 
+    /**
+     * FAQ Accordion
+     */
+
+    var _faqAccordionEl = $(".sed-shop-faq-wrapper-inner");
+
+    _faqAccordionEl.accordion({
+        heightStyle     : "content",
+        active          : 0,
+        collapsible     : true,
+        icons           :false 
+    });
+
+    console.log(_faqAccordionEl);
+
+
+    /**
+     * Loading 
+     */
+
     var removePreloader = function() {
         setTimeout(function() {
             jQuery('.preloader').hide();

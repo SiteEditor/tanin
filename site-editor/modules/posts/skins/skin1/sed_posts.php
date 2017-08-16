@@ -1,9 +1,9 @@
-<div <?php echo $sed_attrs; ?> class="module module-posts module-posts-default <?php echo $class; ?> ">
+<div <?php echo $sed_attrs; ?> class="module module-posts module-posts-skin1 <?php echo $class; ?> ">
 
     <?php
     if( $show_title ) {
         ?>
-        <div class="posts-entry-title"><?php echo $title;?></div>
+        <div class="element-heading-module"><?php echo $title;?></div>
         <?php
     }
 
@@ -13,7 +13,7 @@
 
         ?>
 
-        <ul>
+        <div class="module-posts-wrap row"> 
 
             <?php
             // Start the Loop.
@@ -26,7 +26,7 @@
 
             ?>
 
-        </ul>
+        </div>
 
         <?php
 
@@ -35,7 +35,7 @@
     }else{ ?>
         
         <div class="not-found-post">
-            <p><?php echo __("Not found result" , "site-editor" ); ?> </p>
+            <p><?php echo __("Not found result" , "twentyseventeen" ); ?> </p>
         </div>
         
     <?php 
