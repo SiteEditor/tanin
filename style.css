@@ -1585,6 +1585,7 @@ body .in-btn-back-module #return-to-top i:hover {
 
 .image-content-box-skin4 .icb-content {
     padding: 0  25px 25px;
+    text-align: justify;
 }
 
 .image-content-box-skin4 .icb-content * {
@@ -1592,6 +1593,10 @@ body .in-btn-back-module #return-to-top i:hover {
     padding: 0;
 }
 
+.image-content-box-skin4 .icb-content .button {
+    margin-top: 10px;
+    display: block;
+}
 
 /************************************/
 

@@ -20,31 +20,7 @@ get_header(); ?>
 				/* Start the Loop */
 				while ( have_posts() ) : the_post();
 
-				?>
-					<div class="sed-shop-faq-single">
-						<div class="sed-shop-faq-single-inner">
-
-							<div class="faq-heading">
-							    <div class="faq-heading-inner">
-							        <h5><?php the_title(); ?></h5>
-							    </div>
-							</div>
-
-							<div class="faq-content">
-							    <div class="faq-content-inner">
-									<?php
-										/* translators: %s: Name of current post */
-										the_content( sprintf(
-											__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ),
-											get_the_title()
-										) );
-									?>
-							    </div>
-							</div>
-
-						</div>
-					</div>
-				<?php	
+                    get_template_part( 'template-parts/custom-post-type/single-faq' );
 
 					// If comments are open or we have at least one comment, load up the comment template.
 					if ( comments_open() || get_comments_number() ) :
