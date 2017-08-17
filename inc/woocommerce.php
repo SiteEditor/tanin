@@ -73,6 +73,12 @@ class SedShopWoocommerceSingleProductModule{
 
         add_filter( "woocommerce_product_thumbnails_columns" , array( __CLASS__ , "get_thumbnails_columns" ) );
 
+        add_filter( "woocommerce_format_sale_price" , array( __CLASS__ , "format_sale_price" ) , 0 , 3 );
+
+        add_filter( "woocommerce_variable_price_html" , array( __CLASS__ , "variable_price_html" ) , 100 , 2 );
+
+        add_filter( "woocommerce_get_price_html" , array( __CLASS__ , "get_price_html" ) , 100 , 2 );
+
     }
 
     /**
@@ -92,9 +98,95 @@ class SedShopWoocommerceSingleProductModule{
 
     public function add_heading_part(){
 
+        add_action( 'woocommerce_single_product_summary', array( __CLASS__ , 'sub_title' ), 7 );
+
         //add_action( 'sed_shop_single_product_heading_left', 'woocommerce_template_single_title', 5 );
 
         //add_action( 'sed_shop_single_product_heading_right', 'woocommerce_template_single_rating', 10 );
+
+    }
+
+    public static function sub_title(){
+
+        $second_title = get_post_meta( get_the_ID() , 'wpcf-product-second-title' , true );
+
+        $second_title = trim( $second_title );
+
+        if( !empty( $second_title ) ) {
+            ?>
+
+            <h4 class="product-second-title"><?php echo $second_title; ?></h4>
+
+            <?php
+        }
+
+    }
+
+    public static function format_sale_price( $price, $regular_price, $sale_price ){
+
+        $price  = '<div class="mafiran-main-price">';
+
+        $price .= '<ins>' . ( is_numeric( $sale_price ) ? wc_price( $sale_price ) : $sale_price ) . '</ins> <del>' . ( is_numeric( $regular_price ) ? wc_price( $regular_price ) : $regular_price ) . '</del>';
+
+        $price .= '</div>';
+
+        return $price;
+
+    }
+
+    public static function get_price_html( $price , $obj ){
+
+        if ( $obj->is_on_sale() && "variable" != $obj->get_type() ) {
+
+            $regular_price = wc_get_price_to_display( $obj, array( 'price' => $obj->get_regular_price() ) );
+
+            $sale_price = wc_get_price_to_display( $obj );
+
+            $price .= self::sale_discount_price( $regular_price , $sale_price );
+
+        }
+
+        return $price;
+
+    }
+
+    public static function variable_price_html( $price , $obj ){
+
+        $prices = $obj->get_variation_prices( true );
+
+        $min_price     = current( $prices['price'] );
+        $min_reg_price = current( $prices['regular_price'] );
+        $max_reg_price = end( $prices['regular_price'] );
+
+        if ( $obj->is_on_sale() && $min_reg_price === $max_reg_price ) {
+
+            $regular_price = $max_reg_price;
+
+            $sale_price = $min_price;
+
+            $price .= self::sale_discount_price( $regular_price , $sale_price );
+
+        }
+
+        return $price;
+
+    }
+
+    public static function sale_discount_price( $from , $to ){
+
+        $discount = '';
+
+        if( is_singular( 'product' ) ){
+
+            $discount .= '<div class="mafiran-discount-price">';
+
+            $discount .= round( ( ($from - $to)/$from ) * 100 ) . "%" ;
+
+            $discount .= '</div>';
+
+        }
+
+        return $discount;
 
     }
 
@@ -397,3 +489,188 @@ class SedShopWoocommerceShortcodes{
 }
 
 new SedShopWoocommerceShortcodes();
+
+
+class SedAdminProductAttrsSettings{
+
+    public function __construct(){
+
+        add_action( 'admin_footer', array( $this, 'admin_footer' ) );
+
+        // do_action( 'woocommerce_attribute_added', $wpdb->insert_id, $attribute );
+        add_action( 'woocommerce_attribute_added', array( $this, 'woocommerce_attribute_added'), 10, 2 );
+
+        // do_action( 'woocommerce_attribute_updated', $attribute_id, $attribute, $old_attribute_name );
+        add_action( 'woocommerce_attribute_updated', array( $this, 'woocommerce_attribute_updated'), 10, 3 );
+
+    }
+
+    /**
+     * Get attribute setting
+     * @param  int $attribute_id
+     * @param  string $key
+     * @return mixed
+     */
+    public static function get_attr_setting($attribute_id, $key = null){
+
+        $settings = get_option("_sed_tanin_attr_settings_{$attribute_id}" );
+
+        if($settings && isset($settings[$key])){
+            return $settings[$key];
+        }elseif($settings && $key == null){
+            return $settings;
+        }
+
+        return false;
+    }
+
+    public function woocommerce_attribute_added($attribute_id, $attribute){
+
+        $sed_tanin_attribute_type = isset($_POST['sed_tanin_attribute_type']) ? esc_attr( $_POST['sed_tanin_attribute_type'] ) : false;
+        $sed_tanin_attribute_always_show= isset($_POST['sed_tanin_attribute_always_show']) ? 'yes' : 'no';
+
+        $attr_settings = array(
+            'sed_tanin_attribute_type' => $sed_tanin_attribute_type,
+            'sed_tanin_attribute_always_show' => $sed_tanin_attribute_always_show,
+        );
+
+        update_option( "_sed_tanin_attr_settings_{$attribute_id}", $attr_settings );
+    }
+
+    public function woocommerce_attribute_updated($attribute_id, $attribute, $old_attribute_name){
+
+        $this->woocommerce_attribute_added($attribute_id, $attribute);
+    }
+
+    /**
+     * Attribute Parent Fields
+     */
+
+    public function admin_footer(){
+
+        // temp find page
+        $page = isset($_GET['page']) ? $_GET['page'] : false;
+        $edit = isset($_GET['edit']) ? $_GET['edit'] : false;
+        $taxonomy = isset($_GET['taxonomy']) ? $_GET['taxonomy'] : false;
+
+        if($page !== 'product_attributes' || $taxonomy !== false){
+            return;
+        }
+
+        if(!$edit) {
+
+            // add screen
+            ob_start();
+            ?>
+
+            <div class="form-field">
+                <h3><?php _e('Advanced Attributes Settings', 'tanin'); ?></h3>
+            </div>
+
+            <div class="form-field">
+                <label for="sed_tanin_attribute_type"><?php _e( 'Display Type', 'tanin' ); ?></label>
+                <select name="sed_tanin_attribute_type" id="sed_tanin_attribute_type">
+                    <option value="default"><?php _e( 'Default', 'tanin' ); ?></option>
+                    <option value="date"><?php _e( 'Date', 'tanin' ); ?></option>
+                    <option value="textarea"><?php _e( 'Textarea', 'tanin' ); ?></option>
+                    <option value="text"><?php _e( 'Text', 'tanin' ); ?></option>
+                </select>
+                <p class="description"><?php _e( 'Type of the attribute output (shown on the front-end variation form).', 'tanin' ); ?></p>
+            </div>
+
+            <div class="form-field">
+                <label for="sed_tanin_attribute_always_show"><?php _e( 'Display always on the front-end', 'tanin' ); ?></label>
+                <select name="sed_tanin_attribute_always_show" id="sed_tanin_attribute_always_show">
+                    <option value="no"><?php _e( 'No', 'tanin' ); ?></option>
+                    <option value="above_btn"><?php _e( 'Yes', 'tanin' ); ?></option>
+                </select>
+                <p class="description"><?php _e( 'Display this attribute always on the single product page.', 'tanin' ); ?></p>
+            </div>
+
+            <?php
+            $contents = ob_get_clean();
+            $contents = preg_replace( "/\r|\n/", "", $contents );
+            $contents = preg_replace( "/'/", "\'", $contents );
+            ?>
+            <script type="text/javascript">
+                jQuery(function($){
+                    // insert at bottom of form
+                    $('.form-wrap .form-field:last').after('<?php echo $contents; ?>');
+                });
+            </script>
+            <?php
+        }else{
+
+            $sed_attribute_type = self::get_attr_setting($edit, 'sed_tanin_attribute_type');
+            $sed_attribute_always_show = self::get_attr_setting($edit, 'sed_tanin_attribute_always_show');
+
+            // edit screen
+            ob_start();
+            ?>
+
+            <tr>
+                <td colspan="2"><h3><?php _e( 'Advanced Attributes Settings', 'jcaa' ); ?></h3></td>
+            </tr>
+
+            <tr class="form-field form-required"">
+
+                <th scope="row" valign="top">
+                    <label for="sed_tanin_attribute_type"><?php _e( 'Display Type', 'tanin' ); ?></label>
+                </th>
+
+                <td>
+                    <select name="sed_tanin_attribute_type" id="sed_tanin_attribute_type">
+                        <option value="default" <?php selected( 'default', $sed_attribute_type, true ); ?>><?php _e( 'Default', 'tanin' ); ?></option>
+                        <option value="date" <?php selected( 'date', $sed_attribute_type, true ); ?>><?php _e( 'Date', 'tanin' ); ?></option>
+                        <option value="textarea" <?php selected( 'textarea', $sed_attribute_type, true ); ?>><?php _e( 'Textarea', 'tanin' ); ?></option>
+                        <option value="text" <?php selected( 'text', $sed_attribute_type, true ); ?>><?php _e( 'Text', 'tanin' ); ?></option>
+                    </select>
+                    <p class="description"><?php _e( 'Type of the attribute output (shown on the front-end variation form).', 'tanin' ); ?></p>
+                </td>
+
+            </tr>
+
+            <tr class="form-field form-required"">
+
+                <th scope="row" valign="top">
+                    <label for="sed_tanin_attribute_always_show"><?php _e( 'Display always on the front-end', 'tanin' ); ?></label>
+                </th>
+
+                <td>
+                    <select name="sed_tanin_attribute_always_show" id="sed_tanin_attribute_always_show">
+                        <option value="no" <?php selected( 'no', $sed_attribute_always_show, true ); ?>><?php _e( 'No', 'tanin' ); ?></option>
+                        <option value="yes" <?php selected( 'yes', $sed_attribute_always_show, true ); ?>><?php _e( 'Yes', 'tanin' ); ?></option>
+                    </select>
+                    <p class="description"><?php _e( 'Display this attribute always on the single product page.', 'tanin' ); ?></p>
+                </td>
+
+            </tr>
+
+
+            <?php
+            $contents = ob_get_clean();
+            $contents = preg_replace( "/\r|\n/", "", $contents );
+            $contents = preg_replace( "/'/", "\'", $contents );
+            ?>
+
+            <script type="text/javascript">
+                jQuery(function($){
+                    // insert at bottom of form
+                    $('.form-table tr:last').after('<?php echo $contents; ?>');
+                });
+            </script>
+            <?php
+
+        }
+
+    }
+
+}
+
+function tanin_woo_get_attr_setting($attribute_id, $key = null){
+
+    return SedAdminProductAttrsSettings::get_attr_setting( $attribute_id , $key );
+
+}
+
+new SedAdminProductAttrsSettings();
