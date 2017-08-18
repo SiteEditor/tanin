@@ -325,6 +325,40 @@
 
     console.log(_faqAccordionEl);
 
+    /**
+     * Single Products
+     */
+    $(".single_open_add_to_cart_dialog").on("click" , function(){
+
+        var $dialog = $("#sed-add-to-cart-dialog");
+
+        $dialog.addClass( 'active' );
+
+        var $conetntForm = $(".add-to-cart-dialog-form-conetnt");
+
+        if( $conetntForm.length > 0 ) {
+
+            var fields = $(".product-options .product-option-value").serializeArray(),
+                $labels = $(".product-options .product-option-label"),
+                $html = '';
+
+            console.log(fields);
+
+            $.each(fields, function (index, val) {
+
+                $html += '<div class="tanin-form-item-content"><span class="input-label">' + $labels.eq( index ).text() + ': </span><span class="input-val">' + val.value + '</span></div>';
+
+            });
+
+            $conetntForm.html( $html );
+
+            var quantity = $("#tanin_product_quantity").find(".product-option-value").val();
+
+            $("form.tanin-main-form-cart").find(".quantity > input.qty").val( quantity );
+
+        }
+
+    });
 
     /**
      * Loading 

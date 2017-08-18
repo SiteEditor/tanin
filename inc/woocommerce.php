@@ -69,11 +69,11 @@ class SedShopWoocommerceSingleProductModule{
 
         $this->add_price_part();
 
-        $this->remove_upsell_related_products();
+        $this->remove_details_products();
 
         add_filter( "woocommerce_product_thumbnails_columns" , array( __CLASS__ , "get_thumbnails_columns" ) );
 
-        add_filter( "woocommerce_format_sale_price" , array( __CLASS__ , "format_sale_price" ) , 0 , 3 );
+        add_filter( "woocommerce_format_sale_price" , array( __CLASS__ , "format_sale_price" ) , 100 , 3 );
 
         add_filter( "woocommerce_variable_price_html" , array( __CLASS__ , "variable_price_html" ) , 100 , 2 );
 
@@ -87,11 +87,11 @@ class SedShopWoocommerceSingleProductModule{
     public function remove_default_hooks(){
 
         //remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_title', 5 );
-        //remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_rating', 10 );
+        remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_rating', 10 );
         //remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
         //remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_excerpt', 20 );
-        //remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
-        //remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_sharing', 50 );
+        remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_meta', 40 );
+        remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_sharing', 50 );
         //remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
 
     }
@@ -211,11 +211,11 @@ class SedShopWoocommerceSingleProductModule{
 
     }
 
-    public function remove_upsell_related_products(){
-
-        //remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_upsell_display', 15 );
+    public function remove_details_products(){
 
         remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_related_products', 20 );
+
+        remove_action( 'woocommerce_after_single_product_summary', 'woocommerce_output_product_data_tabs', 10 );
 
     }
 
@@ -490,8 +490,173 @@ class SedShopWoocommerceShortcodes{
 
 new SedShopWoocommerceShortcodes();
 
+if( class_exists( 'WooCommerce_Product_Options' ) ){
 
-class SedAdminProductAttrsSettings{
+    class TaninProductOptionsGroup extends Woocommerce_Product_Options_Product_Option_Group{
+
+
+        function print_options( $position ) {
+            global $wpdb;
+            $sql = "SELECT ID, menu_order FROM {$wpdb->prefix}posts WHERE post_type='product_option_group' AND post_status='publish' ORDER BY menu_order ASC;";
+            $results = $wpdb->get_results( $sql );
+            global $post;
+            $product_post_id = $post->ID;
+            if ( !empty( $results ) ) {
+                foreach ( $results as $result ) {
+                    $product_option_group_id = $result->ID;
+                    $meta = get_post_meta( $product_option_group_id, 'group_options', true );
+                    $print_options = false;
+                    if ( !empty( $meta[ 'any_product' ] ) ) {
+                        $print_options = true;
+                        $product_group_post_id = $product_option_group_id;
+                    } else {
+                        if ( !empty( $meta[ 'categories' ] ) ) {
+                            $categories = $meta[ 'categories' ];
+                            $product_categories = get_the_terms( $product_post_id, 'product_cat' );
+                            if ( !empty( $product_categories ) ) {
+                                foreach ( $product_categories as $product_category ) {
+                                    if ( in_array( $product_category->name, $categories ) ) {
+                                        $print_options = true;
+                                        $product_group_post_id = $product_option_group_id;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                        if ( !$print_options && !empty( $meta[ 'query' ] ) ) {
+                            $product_group_post_id = $product_option_group_id;
+                            $product_query = new WP_Query( $meta[ 'query' ] );
+                            if ( $product_query->have_posts() ) {
+                                while ( $product_query->have_posts() ) {
+                                    $product_query->the_post();
+                                    $test_id = get_the_id();
+                                    if ( $test_id === $product_post_id ) {
+                                        $print_options = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            wp_reset_postdata();
+                        }
+                    }
+                    if ( $print_options ) {
+                        $settings = get_post_meta( $product_group_post_id, 'product-options-settings', true );
+                        $above_add_to_cart = value( $settings, 'above_add_to_cart', '' );
+                        $in_variations_add_to_cart = value( $settings, 'in_variations_add_to_cart', '' );
+                        if ( ( $position == 'show_in_list' && !empty( $settings[ 'show_in_list' ] ) ) || empty( $position ) || ( $position == value( $settings, 'location_of_options' ) ) || ( $position == 'above_add_to_cart' && !empty( $above_add_to_cart ) ) || ( $position == 'below_add_to_cart' && empty( $above_add_to_cart ) && empty( $in_variations_add_to_cart ) && empty( $settings[ 'location_of_options' ] ) ) || ( $position == 'in_variations_add_to_cart' && !empty( $in_variations_add_to_cart ) ) ) {
+                            $options = get_post_meta( $product_group_post_id, 'backend-product-options' );
+                            if ( isset( $options[ 0 ] ) && !isset( $options[ 0 ][ 'type' ] ) ) {
+                                $options = $options[ 0 ];
+                            }
+                            print '<div class="product-option-groups">';
+                            do_action( "tanin_start_product_option_groups" , $this );
+                            $this->_print_options( $options, $product_group_post_id, $product_post_id );
+                            print '</div>';
+                        }
+                    }
+                }
+            }
+        }
+
+        function _print_options( $options, $product_option_post_id, $post_id ) {
+
+            //Add the legend
+            $meta = get_post_meta( $product_option_post_id, 'group_options', true );
+            $legend = value( $meta, 'legend' );
+            //Add the accordion
+            $accordion = value( $meta, 'accordion' );
+            $accordion_html = '';
+            $accordion_title_class = '';
+            $accordion_content_class = '';
+            if ( !empty( $accordion ) ) {
+                $accordion_html = ' <span class="accordion-group-expand">+</span> ';
+                $accordion_content_class = 'product-option-accordion-group-content';
+                $accordion_title_class = 'accordion-group';
+            }
+            print '<div class="product-option-group">';
+            if ( !empty( $legend ) ) {
+                print '<fieldset><legend class="' . $accordion_title_class . '">' . get_the_title( $product_option_post_id ) . $accordion_html . '</legend>';
+            } else {
+                //print '<h2 class="' . $accordion_title_class . ' product-option-group-title">' . get_the_title( $product_option_post_id ) . $accordion_html . '</h2>';
+            }
+            print '<div class="' . $accordion_content_class . '">';
+
+            //Add the options
+            global $woocommerce_product_options_product_frontend;
+            $woocommerce_product_options_product_frontend->_print_options( $options, $product_option_post_id, $post_id );
+
+            if ( !empty( $legend ) ) {
+                print '</fieldset>';
+            }
+            print '</div>';
+            print '</div>';
+        }
+
+        /*function __construct() {
+
+            global $woocommerce_product_options_product_frontend;
+
+            remove_action( 'woocommerce_single_variation', array( $woocommerce_product_options_product_frontend, 'woocommerce_before_single_variation' ), 15 );
+            remove_action( 'woocommerce_single_product_summary', array( $woocommerce_product_options_product_frontend, 'woocommerce_single_product_summary_end' ), 60 );
+            remove_action( 'woocommerce_single_product_summary', array( $woocommerce_product_options_product_frontend, 'woocommerce_single_product_summary_before_add_to_cart' ), 25 );
+            remove_action( 'woocommerce_before_single_product_summary', array( $woocommerce_product_options_product_frontend, 'move_price_above_add_to_cart' ) );
+
+            add_action( 'woocommerce_single_product_summary', array( $this, 'woocommerce_single_product_summary_end' ), 60 );
+            add_action( 'woocommerce_single_product_summary', array( $this, 'woocommerce_single_product_summary_before_add_to_cart' ), 25 );
+
+        }
+
+        /**
+         * Displays options after summary
+         */ /*
+        function woocommerce_single_product_summary_before_add_to_cart() {
+            global $post;
+            $settings = get_post_meta( $post->ID, 'product-options-settings', true );
+            $above_add_to_cart = value( $settings, 'above_add_to_cart', '' );
+            if ( !empty( $above_add_to_cart ) || value( $settings, 'location_of_options' ) == 'above_add_to_cart' ) {
+                $this->print_options( 'above_add_to_cart' );
+            }
+            $settings = get_option( 'woocommerce_product_options_settings', array() );
+            if ( empty( $settings[ 'position' ] ) ) {
+                global $woocommerce_product_options_product_option_group;
+                $woocommerce_product_options_product_option_group->print_options( 'above_add_to_cart' );
+            }
+        }
+
+        /**
+         * Displays options after summary
+         */ /*
+        function woocommerce_single_product_summary_end() {
+            global $post;
+            $settings = get_post_meta( $post->ID, 'product-options-settings', true );
+            $above_add_to_cart = value( $settings, 'above_add_to_cart', '' );
+            $in_variations_add_to_cart = value( $settings, 'in_variations_add_to_cart', '' );
+            if ( ( empty( $above_add_to_cart ) && empty( $in_variations_add_to_cart ) && empty( $settings[ 'location_of_options' ] ) ) || value( $settings, 'location_of_options' ) == 'below_add_to_cart' ) {
+                $this->print_options( 'below_add_to_cart' );
+            }
+            $settings = get_option( 'woocommerce_product_options_settings', array() );
+            if ( empty( $settings[ 'position' ] ) ) {
+                global $woocommerce_product_options_product_option_group;
+                $woocommerce_product_options_product_option_group->print_options( 'below_add_to_cart' );
+            }
+        } */
+
+    }
+
+    global $woocommerce_product_options_product_option_group;
+
+    $woocommerce_product_options_product_option_group = new TaninProductOptionsGroup();
+
+}
+
+function tanin_is_user_subscription(){
+
+    return true;
+
+}
+
+
+/*class SedAdminProductAttrsSettings{
 
     public function __construct(){
 
@@ -510,7 +675,7 @@ class SedAdminProductAttrsSettings{
      * @param  int $attribute_id
      * @param  string $key
      * @return mixed
-     */
+     */ /*
     public static function get_attr_setting($attribute_id, $key = null){
 
         $settings = get_option("_sed_tanin_attr_settings_{$attribute_id}" );
@@ -544,7 +709,7 @@ class SedAdminProductAttrsSettings{
 
     /**
      * Attribute Parent Fields
-     */
+     */ /*
 
     public function admin_footer(){
 
@@ -673,4 +838,4 @@ function tanin_woo_get_attr_setting($attribute_id, $key = null){
 
 }
 
-new SedAdminProductAttrsSettings();
+new SedAdminProductAttrsSettings(); */
