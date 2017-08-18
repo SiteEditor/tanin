@@ -20,7 +20,18 @@ html{
 }
 
 body{
-    overflow:hidden
+    overflow:hidden;
+    letter-spacing: 1px;
+}
+
+h1, h2, h3 {
+    letter-spacing: 4px;
+    font-weight: bold;
+}
+
+h4, h5, h6 {
+    letter-spacing: 2px;
+    font-weight: bold;
 }
 
 /* Alignment*/
@@ -133,7 +144,7 @@ body input[type="submit"] {
 
 
 h5, .main-navigation ul ul a, .site-title, .page .panel-content .recent-posts .entry-title, .page .panel-content .entry-title, .page-title, body.page:not(.twentyseventeen-front-page) .entry-title, .entry-meta, .entry-footer .cat-links, .entry-footer .tags-links, .nav-subtitle, .comment-metadata, h2.widget-title, .widget_rss .rss-date, .widget_rss li cite, .site-content .wp-playlist-current-item .wp-playlist-item-artist, .twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel .twentyseventeen-panel-title, .sed-app-editor.twentyseventeen-front-page .twentyseventeen-panel .twentyseventeen-panel-title {
-    letter-spacing: 0;
+    /*letter-spacing: 0;*/
 }
 
 a:hover, 
@@ -1101,6 +1112,10 @@ body .product-cat-justified .tg-cats-holder {
         left: 0;
         right: 0;
     }
+
+    .siteeditor-app .header-absolute {
+        position: relative;
+    }
 }
 
 #header-search {
@@ -1110,17 +1125,29 @@ body .product-cat-justified .tg-cats-holder {
 
 /*****/
 
-.box-margin-top {
+.box-margin-top-sm {
     margin-top: -80px;
-    z-index: 2;
+    z-index: 20;
 }
+
+
+.box-margin-top-md {
+    margin-top: -120px;
+    z-index: 20;
+}
+
 
 @media (max-width: 768px) {
 
-    .box-margin-top {
-        margin-top: -50px;
+    .box-margin-top-sm ,
+    .box-margin-top-md { 
+        margin-top: 0px;
     }
 
+}
+
+.element-z-index {
+    z-index: 1;
 }
 
 /*****/
@@ -1304,7 +1331,8 @@ body .in-btn-back-module #return-to-top i:hover {
     max-width: 350px;
     display: block;
     margin: 0 auto;
-    border: 1px solid #d0d0d0;
+    border: 1px solid #d0d0d0;    
+    background-color: #fff;
     padding: 10px;
     color: #333;
 }
