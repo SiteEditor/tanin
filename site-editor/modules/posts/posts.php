@@ -34,6 +34,7 @@ class PBPostsShortcode extends PBShortcodeClass{
         $atts = array(
             //'title_length'          => 50,
             'show_title'                    => true,
+            'show_only_featured_posts'      => false,
             'title'                         => '',
             'excerpt_length'                => 50,
             'posts_per_page'                => 5,
@@ -77,6 +78,14 @@ class PBPostsShortcode extends PBShortcodeClass{
             );
 
             $args['tax_query'][] = $tax_args;
+
+        }
+
+        if( $show_only_featured_posts ){
+
+            $args['meta_key']    = '_is_ns_featured_post';
+
+			$args['meta_value']  = 'yes';
 
         }
 
@@ -251,6 +260,20 @@ class PBPostsShortcode extends PBShortcodeClass{
                         )
                     )
                 )
+            );
+
+        }
+
+        if( class_exists('NS_Featured_Posts') ){
+
+            $params['show_only_featured_posts'] = array(
+                'label'             => __('Show Only Featured Posts', 'site-editor'),
+                'type'              => 'switch',
+                'choices'           => array(
+                    "on"       =>    "ON" ,
+                    "off"      =>    "OFF" ,
+                ),
+                "panel"         => "posts_settings_panel" ,
             );
 
         }

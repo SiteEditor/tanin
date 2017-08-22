@@ -433,9 +433,71 @@ class SedShopWoocommerceShortcodes{
 
         add_shortcode( 'sed_woocommerce_login', array( __CLASS__ , 'login' ) );
 
+        add_shortcode( 'sed_woo_cart_icon', array( __CLASS__ , 'cart_icon' ) );
+
         add_shortcode( 'sed_woo_user_profile', array( __CLASS__ , 'user_profile' ) );
         
     }
+
+    public static function cart_icon(){
+
+        ?>
+        <div class="sed-menu-item-cart menu-item menu-item-has-children dropdown menu-flyout" >
+
+            <?php
+            $count = WC()->cart->cart_contents_count;
+            ?>
+            <a class="cart-contents dropdown-toggle item-menu-toggle" data-toggle="dropdown" href="<?php echo WC()->cart->get_cart_url(); ?>" title="<?php _e( 'View your shopping cart' ); ?>">
+                <?php
+                if ( $count > 0 ) {
+                    ?>
+                    <span class="cart-contents-count"><?php echo esc_html( $count ); ?></span>
+                    <?php
+                }
+                ?>
+                <span class="ef ef-shopping-cart menu-item-icon"></span>
+            </a>
+
+            <span class=" sed-menu-arrow fa fa-angle-down dropdown-toggle" data-toggle="dropdown"></span>
+
+            <ul class="dropdown-menu">
+                <li>
+                    <div class="shopping_cart_in_menu">
+                        <div class="hide_cart_widget_if_empty">
+                            <div class="widget_shopping_cart_content">
+
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+        <?php
+
+    }
+
+    /**
+     * Ensure cart contents update when products are added to the cart via AJAX
+     *
+    function my_header_add_to_cart_fragment( $fragments ) {
+
+        ob_start();
+        $count = WC()->cart->cart_contents_count;
+        ?><a class="cart-contents" href="<?php echo WC()->cart->get_cart_url(); ?>" title="<?php _e( 'View your shopping cart' ); ?>"><?php
+        if ( $count > 0 ) {
+            ?>
+            <span class="cart-contents-count"><?php echo esc_html( $count ); ?></span>
+            <?php
+        }
+        ?></a><?php
+
+        $fragments['a.cart-contents'] = ob_get_clean();
+
+        return $fragments;
+    }
+add_filter( 'woocommerce_add_to_cart_fragments', 'my_header_add_to_cart_fragment' );
+     */
 
     public static function login( $atts ) {
 

@@ -57,7 +57,7 @@
                 </div>
                 <div class="icb-heading">
                     <div class="icb-heading-inner">
-                        <h4><?php the_title(); ?></h5>
+                        <h4><?php the_title(); ?></h4>
                     </div> 
                 </div>
                 <div class="icb-content">
