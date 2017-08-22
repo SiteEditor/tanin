@@ -360,6 +360,64 @@
 
     });
 
+    $(".add-to-cart-dialog-close").on("click" , function(){
+        $("#sed-add-to-cart-dialog").removeClass( 'active' );  
+    });    
+
+    $("#sed-add-to-cart-dialog").on('click', function (e) {
+
+        if ( !$(e.target).hasClass("add-to-cart-dialog-inner") && $(e.target).parents(".add-to-cart-dialog-inner:first").length == 0 ) {
+            
+            $(this).removeClass( 'active' );                      
+        }
+
+    });   
+
+
+    /*$('.item-column').livequery(function(){
+        var ItemId            = $(this).attr("id"),
+            Item              = $( "#" + ItemId ),
+            popupContainerid  = Item.find(".sed_popup").attr("id"),
+            iconselectorid    = Item.find(".project-view-icon").attr("id"),
+            popupContainer    = $( "#" + popupContainerid ),
+            iconselector      = $( "#" + iconselectorid ),
+            iconClose         = Item.find(".sed_popup_container .close");
+
+        iconselector.click(function(event) {
+            
+            event.preventDefault();
+            
+            if(!popupContainer.hasClass('in') && !popupContainer.hasClass('show')){
+                popupContainer.addClass('in');  
+                popupContainer.addClass('show');
+            }
+
+        });
+
+        iconClose.click(function(event) {
+            
+            if(popupContainer.hasClass('in') && popupContainer.hasClass('show')){
+                popupContainer.removeClass('in');   
+                popupContainer.removeClass('show');
+            }
+
+        });
+
+        popupContainer.on('click', function (e) {
+
+            if ( !$(e.target).hasClass("sed_popup_container") && $(e.target).parents(".sed_popup_container:first").length == 0 ) {
+                
+                if($(this).hasClass('in') && $(this).hasClass('show')){
+                    $(this).removeClass('in');   
+                    $(this).removeClass('show');
+                }                       
+            }
+        });    
+
+    });
+
+    */
+
     /**
      * Loading 
      */

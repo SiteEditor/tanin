@@ -52,6 +52,11 @@ function sed_tanin_theme_setup() {
     add_filter( 'tanin_short_description', 'prepend_attachment' );
     add_filter( 'tanin_short_description', 'do_shortcode', 11 ); // AFTER wpautop()
 
+    // This theme uses wp_nav_menu() in two locations.
+    register_nav_menus( array(
+        'services'    => __( 'Services Menu', 'twentyseventeen' ),
+    ) );
+
 }
 
 function tanin_excerpt_more( $link ) {

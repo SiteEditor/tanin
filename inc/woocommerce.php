@@ -37,7 +37,7 @@ class SedShopWooCommerce{
 
     public function remove_breadcrumb(){
 
-        //remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
+        remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
 
     }
 
@@ -98,12 +98,22 @@ class SedShopWoocommerceSingleProductModule{
 
     public function add_heading_part(){
 
+        add_action( 'woocommerce_single_product_summary', array( __CLASS__ , 'start_heading' ), 4 );
+
         add_action( 'woocommerce_single_product_summary', array( __CLASS__ , 'sub_title' ), 7 );
+
+        add_action( 'woocommerce_single_product_summary', array( __CLASS__ , 'end_heading' ), 11 );
 
         //add_action( 'sed_shop_single_product_heading_left', 'woocommerce_template_single_title', 5 );
 
         //add_action( 'sed_shop_single_product_heading_right', 'woocommerce_template_single_rating', 10 );
 
+    }
+
+    public static function start_heading(){
+        ?>
+            <div class="product-heading-wrap">
+        <?php
     }
 
     public static function sub_title(){
@@ -122,9 +132,15 @@ class SedShopWoocommerceSingleProductModule{
 
     }
 
+    public static function end_heading(){
+        ?>
+            </div>
+        <?php
+    }
+
     public static function format_sale_price( $price, $regular_price, $sale_price ){
 
-        $price  = '<div class="mafiran-main-price">';
+        $price  = '<div class="product-main-price">';
 
         $price .= '<ins>' . ( is_numeric( $sale_price ) ? wc_price( $sale_price ) : $sale_price ) . '</ins> <del>' . ( is_numeric( $regular_price ) ? wc_price( $regular_price ) : $regular_price ) . '</del>';
 
@@ -178,7 +194,7 @@ class SedShopWoocommerceSingleProductModule{
 
         if( is_singular( 'product' ) ){
 
-            $discount .= '<div class="mafiran-discount-price">';
+            $discount .= '<div class="product-discount-price">';
 
             $discount .= round( ( ($from - $to)/$from ) * 100 ) . "%" ;
 

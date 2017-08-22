@@ -4,81 +4,81 @@
 
     <div class="image-content-box row">
 
+        <?php
 
+
+        $args = array(
+            'post_type'         => 'product',
+            'posts_per_page'    => -1,
+            'post_status'       => 'publish',
+            //'orderby'         => 'menu_order',
+            //'order'           => 'ASC',
+            'meta_query'        => array(
+                array(
+                    'key'       => 'wpcf-sed-product-tanin-type',
+                    'value'     => 'subscription'
+                ),
+            ),
+        );
+        $query = new WP_Query( $args );
+
+        while ( $query->have_posts() ) {
+
+            $query->the_post(); 
+
+
+            $attachment_id   = get_post_thumbnail_id();
+
+            $img = get_sed_attachment_image_html( $attachment_id , "" , $images_size );
+
+            $attachment_full_src = wp_get_attachment_image_src( $attachment_id, 'full' ); 
+
+            $attachment_full_src = $attachment_full_src[0];
+
+
+            $excerpt_length = 300;
+
+            $content_post = apply_filters('the_excerpt', get_the_excerpt()); //var_dump($content_post);
+
+            # FILTER EXCERPT LENGTH
+            if( strlen( $content_post ) > $excerpt_length )
+                $content_post = mb_substr( $content_post , 0 , $excerpt_length - 3 ) . '...';
+
+        ?>
 
         <div class="image-content-box-skin3 col-sm-4">
             <div class="icb-wrapper">
                 <div class="icb-img">
-                    <img src="http://localhost/tanintan/wp-content/uploads/2017/08/12.png" alt="About Me">
+                <?php 
+                    if ( $img ) {
+                        echo $img['thumbnail'];
+                    }
+                ?>
                 </div>
                 <div class="icb-heading">
                     <div class="icb-heading-inner">
-                        <h4>Donec quam felis</h5>
-                    </div>
+                        <h4><?php the_title(); ?></h5>
+                    </div> 
                 </div>
                 <div class="icb-content">
                     <div class="icb-content-inner">
-                        <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim donec pede justo.</p>
+                        <div><?php echo $content_post; ?></div>
                     </div>
                     <div class="icb-subscribe-plan">
                         <span>Donec quam felis, ultricies nec.</span>
                     </div>
                     <div class="icb-subscribe-btn">
-                        <button class="secondary">Subscribe</button>
+                        <a href="<?php echo site_url( '/?tanin_quick_checkout=1&add_to_cart='. get_the_ID() ); ?>" ><button class="secondary">Subscribe</button></a> 
                     </div>
                 </div>
             </div>  
-        </div> 
+        </div>   
 
-        <div class="image-content-box-skin3 col-sm-4">
-            <div class="icb-wrapper">
-                <div class="icb-img">
-                    <img src="http://localhost/tanintan/wp-content/uploads/2017/08/13.png" alt="About Me">
-                </div>
-                <div class="icb-heading">
-                    <div class="icb-heading-inner">
-                        <h4>Donec quam felis</h5>
-                    </div>
-                </div>
-                <div class="icb-content">
-                    <div class="icb-content-inner">
-                        <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim donec pede justo.</p>
-                    </div>
-                    <div class="icb-subscribe-plan">
-                        <span>Donec quam felis, ultricies nec.</span>
-                    </div>
-                    <div class="icb-subscribe-btn">
-                        <button class="secondary">Subscribe</button>
-                    </div>
-                </div>
-            </div>  
-        </div> 
+        <?php      
 
-        <div class="image-content-box-skin3 col-sm-4">
-            <div class="icb-wrapper">
-                <div class="icb-img">
-                    <img src="http://localhost/tanintan/wp-content/uploads/2017/08/14.png" alt="About Me">
-                </div>
-                <div class="icb-heading">
-                    <div class="icb-heading-inner">
-                        <h4>Donec quam felis</h5>
-                    </div>
-                </div>
-                <div class="icb-content">
-                    <div class="icb-content-inner">
-                        <p>Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim donec pede justo.</p>
-                    </div>
-                    <div class="icb-subscribe-plan">
-                        <span>Donec quam felis, ultricies nec.</span>
-                    </div>
-                    <div class="icb-subscribe-btn">
-                        <button class="secondary">Subscribe</button>
-                    </div>
-                </div>
-            </div>  
-        </div> 
+        }
 
-
+        ?>
 
     </div> 
 
