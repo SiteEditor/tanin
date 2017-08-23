@@ -11,7 +11,7 @@
  */
 
 ?>
-<div id="post-<?php the_ID(); ?>" <?php post_class( $classes ); ?>>
+<div id="post-<?php the_ID(); ?>" <?php post_class( 'faq-item' ); ?>>
     <div class="sed-shop-faq-single">
         <div class="sed-shop-faq-single-inner">
 

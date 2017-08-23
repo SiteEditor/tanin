@@ -16,7 +16,7 @@ $service_link = get_post_meta( get_the_ID(), 'wpcf-service-link', true );
 
 ?>
 
-<div id="post-<?php the_ID(); ?>" <?php post_class( $classes ); ?>> 
+<div id="post-<?php the_ID(); ?>" <?php post_class( 'service' ); ?>>
 
 	<div class="custom-post-type-single">
 	    <div class="single-wrapper">

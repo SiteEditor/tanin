@@ -266,7 +266,43 @@ class SedShopWoocommerceArchiveModule{
 
         //add_filter( 'sed_shop_before_shop_loop'         , 'woocommerce_pagination' , 10  );
 
+        remove_filter('woocommerce_get_price_html', array( YITH_WC_Subscription() , 'change_price_html' ), 10 );
+
+        add_filter('woocommerce_get_price_html', array( $this , 'change_price_subscription' ), 10 , 2 );
+
         $this->set_content_product();
+
+    }
+
+    public function change_price_subscription( $price, $product ){
+
+        if ( ! YITH_WC_Subscription()->is_subscription( $product->get_id() ) ) {
+            return $price;
+        }
+
+        $price_is_per      = yit_get_prop( $product, '_ywsbs_price_is_per' );
+        $price_time_option = yit_get_prop( $product, '_ywsbs_price_time_option' );
+        $max_length = get_post_meta( get_the_ID(), '_ywsbs_max_length', true );
+
+        $price_time_option_string = $max_length > 1 ? $max_length . " " . $price_time_option : $price_time_option;
+
+        if( $price_time_option == "months" ){
+
+            if( $max_length == 12 ){
+
+                $price_time_option_string = "year";
+
+            }else if( $max_length == 24 ){
+
+                $price_time_option_string = "2 year";
+
+            }
+
+        }
+
+        $price .= ' / ' . $price_time_option_string;
+
+        return $price;
 
     }
 

@@ -233,6 +233,20 @@ function tanin_add_google_font( $google_fonts ){
 
 add_filter( 'sed_google_fonts_filter' , 'tanin_add_google_font' );
 
+function tanin_go_to_services(){
+
+    if( is_post_type_archive( 'services-blog' ) ){
+
+        wp_safe_redirect( site_url('/tservices') );
+
+        exit;
+
+    }
+
+}
+
+add_action( "wp" , "tanin_go_to_services" );
+
 /**
  * Site Editor Shop WooCommerce
  */

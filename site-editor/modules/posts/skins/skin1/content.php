@@ -10,7 +10,7 @@
 
     $attachment_id   = get_post_thumbnail_id();
 
-	$img = get_sed_attachment_image_html( $attachment_id , "" , $images_size );
+	$img = get_sed_attachment_image_html( $attachment_id , "" , "306X220" );
 
 	$attachment_full_src = wp_get_attachment_image_src( $attachment_id, 'full' ); 
 
