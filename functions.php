@@ -87,6 +87,9 @@ function sed_tanin_add_modules( $modules ){
     $module_name = "themes/tanin/site-editor/modules/posts/posts.php";
     $modules[$module_name] = $sed_pb_modules->get_module_data(get_stylesheet_directory() . '/site-editor/modules/posts/posts.php', true, true);
 
+    $module_name = "themes/tanin/site-editor/modules/terms/terms.php";
+    $modules[$module_name] = $sed_pb_modules->get_module_data(get_stylesheet_directory() . '/site-editor/modules/terms/terms.php', true, true);
+
     //$module_name = "themes/tanin/site-editor/modules/tanin-products/tanin-products.php";
     //$modules[$module_name] = $sed_pb_modules->get_module_data(get_stylesheet_directory() . '/site-editor/modules/tanin-products/tanin-products.php', true, true);
     
