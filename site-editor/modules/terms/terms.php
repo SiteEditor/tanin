@@ -85,7 +85,7 @@ class PBTermsShortcode extends PBShortcodeClass{
     
     function styles(){
         return array(
-            array('terms-skin-default', get_stylesheet_directory_uri().'/site-editor/modules/terms/skins/default/css/style.css' ,'1.0.0' ) ,
+            //array('terms-skin-default', get_stylesheet_directory_uri().'/site-editor/modules/terms/skins/default/css/style.css' ,'1.0.0' ) ,
         );
     }
 

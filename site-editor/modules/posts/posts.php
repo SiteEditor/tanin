@@ -97,7 +97,7 @@ class PBPostsShortcode extends PBShortcodeClass{
     
     function styles(){
         return array(
-            array('posts-skin-default', get_stylesheet_directory_uri().'/site-editor/modules/posts/skins/default/css/style.css' ,'1.0.0' ) ,
+            //array('posts-skin-default', get_stylesheet_directory_uri().'/site-editor/modules/posts/skins/default/css/style.css' ,'1.0.0' ) ,
         );
     }
 
