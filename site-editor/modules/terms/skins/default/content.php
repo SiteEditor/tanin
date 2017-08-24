@@ -1,4 +1,8 @@
-<li class="entry-item collage-item clearfix post item">
+<?php
+
+$active = $is_tax && $current_term_id == $term->term_id ? "active": "";
+
+?><li class="entry-item collage-item clearfix post item <?php echo esc_attr( $active );?>">
 
     <?php
     $term_link = get_term_link( $term );

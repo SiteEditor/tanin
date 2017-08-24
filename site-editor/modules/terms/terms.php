@@ -35,11 +35,8 @@ class PBTermsShortcode extends PBShortcodeClass{
         $atts = array(
             'show_title'                => true,
             'title'                     => '',
-            'excerpt_length'            => 50,
             "taxonomy"                  => '',
-            'parent_term'               => 0 ,
-            'level_type'                => 'all' , //"all" or "top"
-            "images_size"               => 'thumbnail'
+            'post_type'                 => 'post'
         );
 
         return $atts;
@@ -52,26 +49,50 @@ class PBTermsShortcode extends PBShortcodeClass{
 
         $terms = array();
 
-        if( !empty( $taxonomy ) ){
+        $is_tax = $taxonomy && is_tax( $taxonomy );
 
-            $args = array(
-                'taxonomy'          => $taxonomy,
-                'hide_empty'        => false
-            );
+        $is_post_type_archive = $post_type && is_post_type_archive( $post_type );
 
-            if( !empty( $parent_term ) ){
+        $product_has_child = false;
 
-                $parent = $parent_term;
+        if( $post_type == "product" && $taxonomy == "product_cat" && is_tax( $taxonomy ) ){
 
-                if( $level_type == "all" ){
+            $sed_tax_id = get_queried_object()->term_id;
 
-                    $args['child_of'] = $parent;
+            $term_children = get_term_children( $sed_tax_id , $taxonomy );
 
-                }else if( $level_type == "top" ){
+            if( !empty( $term_children ) && ! is_wp_error( $term_children ) ){
 
-                    $args['parent'] = $parent;
+                $product_has_child = true;
 
-                }
+            }
+
+        }
+
+        if( ( $is_tax || $is_post_type_archive ) && $taxonomy && ! $product_has_child ){
+
+            if( $is_tax ) {
+
+                $sed_tax_id = get_queried_object()->term_id;
+
+                $current_term = get_term( $sed_tax_id );
+
+                $args = array(
+                    'taxonomy'          => $taxonomy,
+                    'hide_empty'        => false ,
+                    'hierarchical'      => false,
+                    'child_of'          => $current_term->parent
+                );
+
+
+            }else{
+
+                $args = array(
+                    'taxonomy'          => $taxonomy,
+                    'hide_empty'        => false,
+                    'hierarchical'      => false,
+                    'child_of'          => 0
+                );
 
             }
 
@@ -79,7 +100,26 @@ class PBTermsShortcode extends PBShortcodeClass{
 
         }
 
-        $this->set_vars( array( "terms" => $terms ) );
+        /*
+        if( $is_tax && count( $terms ) == 1 ){
+
+            $terms = array();
+
+        }*/
+
+        $vars = array();
+
+        if( $is_tax ){
+
+            $vars["current_term_id"] = $sed_tax_id ;
+
+        }
+
+        $vars["is_tax"] = $is_tax ;
+
+        $vars["terms"] = $terms ;
+
+        $this->set_vars( $vars );
 
     }
     
@@ -104,12 +144,6 @@ class PBTermsShortcode extends PBShortcodeClass{
 
         $params = array();
 
-        $params['images_size'] = array(
-            "type"          => "image-size" ,
-            "label"         => __("Image Size Field", "site-editor"),
-            "description"   => __("This option allows you to set a title for your image.", "site-editor"),
-            "panel"         => "terms_settings_panel" ,
-        );
 
         $params['show_title'] = array(
             'label'             => __('Show Title', 'site-editor'),
@@ -138,16 +172,6 @@ class PBTermsShortcode extends PBShortcodeClass{
             )
         );
 
-        $params['excerpt_length'] = array(
-            "type"          => "number" ,
-            "label"         => __("Excerpt Length", "site-editor"),
-            "description"   => __("Excerpt Length", "site-editor"),
-            "js_params"     =>  array(
-                "min"  =>  10 ,
-            ),
-            "panel"         => "terms_settings_panel"
-        );
-
         $args = array(
             'public'   => true,
             //'_builtin' => true
@@ -172,47 +196,23 @@ class PBTermsShortcode extends PBShortcodeClass{
             "panel"         => "terms_settings_panel" ,
         );
 
-        foreach ( $taxonomies  as $taxonomy ) {
+        $post_types = get_post_types( array( 'show_in_nav_menus' => true , 'public' => true ), 'object' );
 
-            $terms = get_terms( array(
-                'taxonomy' => $taxonomy->name,
-                'hide_empty' => false,
-            ) );
+        $post_types_choices = array();
 
-            $terms_choices = array();
+        foreach ($post_types AS $post_type_name => $post_type) {
 
-            $terms_choices[0] = __("Select term" , "site-editor");
-
-            if( !empty( $terms ) && is_array( $terms ) ) {
-
-                foreach ( $terms as $term ) {
-
-                    $terms_choices[$term->term_id] = $term->name;
-
-                }
-
-            }
-
-            $params[$taxonomy->name . '_parent_term'] = array(
-                "type"          => "select" ,
-                "label"         => __("Parent Term", "site-editor"),
-                "description"   => __("Parent Term", "site-editor"),
-                "choices"       => $terms_choices,
-                "is_attr"       => true ,
-                "attr_name"     => "parent_term",
-                "panel"         => "terms_settings_panel",
-                'dependency'    => array(
-                    'queries'  =>  array(
-                        array(
-                            "key"       => "taxonomy" ,
-                            "value"     => $taxonomy->name ,
-                            "compare"   => "=="
-                        )
-                    )
-                )
-            );
+            $post_types_choices[$post_type_name] = $post_type->name;
 
         }
+
+        $params['post_type'] = array(
+            "type"          => "select" ,
+            "label"         => __("Select Post Type", "site-editor"),
+            "description"   => __("Select Type of Posts", "site-editor"),
+            "choices"       =>  $post_types_choices,
+            "panel"         => "terms_settings_panel" ,
+        );
 
         $params['skin'] = array(
             "type"                => "skin" ,

@@ -1,7 +1,7 @@
 <div <?php echo $sed_attrs; ?> class="module module-terms module-terms-default <?php echo $class; ?> ">
 
     <?php
-    if( $show_title ) {
+    if( $show_title && !empty( $terms ) ) {
         ?>
         <div class="terms-entry-title"><?php echo $title;?></div>
         <?php
@@ -27,16 +27,8 @@
 
         <?php
 
-    }else{ ?>
-
-        <div class="not-found-term">
-            <p><?php echo __("Not found result" , "site-editor" ); ?> </p>
-        </div>
-
-    <?php
-
     }
-    
+
     ?>
     
 </div>
