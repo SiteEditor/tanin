@@ -338,6 +338,12 @@ class SedShopWoocommerceArchiveModule{
 
         add_action( 'woocommerce_after_shop_loop_item' , array( __CLASS__ , 'add_more_detail' ) , 10 );
 
+        add_action( 'woocommerce_after_subcategory' , array( __CLASS__ , 'enter_to_product' ) , 20 , 1 );
+
+        add_action( 'woocommerce_after_subcategory_title' , array( __CLASS__ , 'add_cat_sub_title' ) , 10 , 1 );
+
+
+
     }
 
 
@@ -348,6 +354,36 @@ class SedShopWoocommerceArchiveModule{
         <a rel="nofollow" href="<?php get_permalink();?>" class="button tanin-more-details-button">
             <?php echo __("More Details" , "tanin" );?>
         </a>
+
+        <?php
+
+    }
+
+    public static function enter_to_product( $category ){
+
+        $term_link = get_term_link( $category );
+
+        // If there was an error, continue to the next term.
+        if ( is_wp_error( $term_link ) ) {
+            $term_link = "#";
+        }
+        ?>
+
+        <a rel="nofollow" href="<?php echo esc_attr( esc_url( $term_link ) );?>" class="button tanin-more-details-button">
+            <?php echo __("Enter" , "tanin" );?>
+        </a>
+
+        <?php
+
+    }
+
+    public static function add_cat_sub_title( $category ){
+
+        $second_title = get_term_meta( $category->term_id , 'wpcf-product-cat-second-title' , true );
+
+        ?>
+
+        <span class="product-cat-second-title"><?php echo $second_title; ?></span>
 
         <?php
 
