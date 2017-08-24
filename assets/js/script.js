@@ -117,6 +117,7 @@
         /**
          * Single Products
          */
+
         $(".single_open_add_to_cart_dialog").on("click" , function(){
 
             var $dialog = $("#sed-add-to-cart-dialog");
@@ -163,49 +164,70 @@
         });
 
 
-        /*$('.item-column').livequery(function(){
-            var ItemId            = $(this).attr("id"),
-                Item              = $( "#" + ItemId ),
-                popupContainerid  = Item.find(".sed_popup").attr("id"),
-                iconselectorid    = Item.find(".project-view-icon").attr("id"),
-                popupContainer    = $( "#" + popupContainerid ),
-                iconselector      = $( "#" + iconselectorid ),
-                iconClose         = Item.find(".sed_popup_container .close");
 
-            iconselector.click(function(event) {
+        /**
+         * quantity Products
+         */
 
-                event.preventDefault();
 
-                if(!popupContainer.hasClass('in') && !popupContainer.hasClass('show')){
-                    popupContainer.addClass('in');
-                    popupContainer.addClass('show');
-                }
+        $( 'div.quantity:not(.buttons_added), td.quantity:not(.buttons_added)' ).livequery(function(){
+            var $testProp = $(this).find('qty');
+            if ($testProp && $testProp.prop('type') != 'date') {
+                // Quantity buttons
+                $( this ).addClass( 'buttons_added' ).append( '<input type="button" value="+" class="plus" />' ).prepend( '<input type="button" value="-" class="minus" />' );
 
-            });
+                // Target quantity inputs on product pages 
+                $( 'input.qty:not(.product-quantity input.qty)' ).each( function() {
 
-            iconClose.click(function(event) {
+                    var min = parseFloat( $( this ).attr( 'min' ) );
 
-                if(popupContainer.hasClass('in') && popupContainer.hasClass('show')){
-                    popupContainer.removeClass('in');
-                    popupContainer.removeClass('show');
-                }
-
-            });
-
-            popupContainer.on('click', function (e) {
-
-                if ( !$(e.target).hasClass("sed_popup_container") && $(e.target).parents(".sed_popup_container:first").length == 0 ) {
-
-                    if($(this).hasClass('in') && $(this).hasClass('show')){
-                        $(this).removeClass('in');
-                        $(this).removeClass('show');
+                    if ( min && min > 0 && parseFloat( $( this ).val() ) < min ) {
+                        $( this ).val( min );
                     }
-                }
-            });
+                });
 
+                $( this ).find('.plus, .minus').click( function() {
+
+                    // Get values
+                    var $qty        = $( this ).closest( '.quantity' ).find( '.qty' ),
+                        currentVal  = parseFloat( $qty.val() ),
+                        max         = parseFloat( $qty.attr( 'max' ) ),
+                        min         = parseFloat( $qty.attr( 'min' ) ),
+                        step        = $qty.attr( 'step' );
+
+                    // Format values
+                    if ( ! currentVal || currentVal === '' || currentVal === 'NaN' ) currentVal = 0;
+                    if ( max === '' || max === 'NaN' ) max = '';
+                    if ( min === '' || min === 'NaN' ) min = 0;
+                    if ( step === 'any' || step === '' || step === undefined || parseFloat( step ) === 'NaN' ) step = 1;
+
+                    // Change the value
+                    if ( $( this ).is( '.plus' ) ) {
+
+                        if ( max && ( max == currentVal || currentVal > max ) ) {
+                            $qty.val( max );
+                        } else {
+                            $qty.val( currentVal + parseFloat( step ) );
+                        }
+
+                    } else {
+
+                        if ( min && ( min == currentVal || currentVal < min ) ) {
+                            $qty.val( min );
+                        } else if ( currentVal > 0 ) {
+                            $qty.val( currentVal - parseFloat( step ) );
+                        }
+
+                    }
+
+                    // Trigger change event
+                    $qty.trigger( 'change' );
+                });
+
+            }
         });
 
-        */
+
 
         /**
          * Loading

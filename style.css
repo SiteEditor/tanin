@@ -2487,12 +2487,12 @@ ul.products li.product .button:hover {
 }
 
 .woocommerce-info {
-    background: #f8f8f8;
+    background: #f2f2f4;
     color: #333;
 }
 
 .woocommerce-message {
-    background: #f8f8f8;
+    background: #f2f2f4;
     color: #333;
 }
 
@@ -2670,13 +2670,16 @@ span.stock-status {
     border: 1px solid #e3e3e3;
 }
 
+.woocommerce .shop_table > tfoot > tr.table-thead > th ,
+.woocommerce .shop_table > tbody > tr.table-thead > th ,
+.woocommerce .shop_table > thead > tr.table-thead > th ,
 .woocommerce .shop_table > thead > tr > th {
-    background-color: #f5f5f5;
+    background-color: #f2f2f4;
     font-size: 15px;
     font-weight: bold;
     text-align: center;
     padding: 10px;
-    border-bottom-color: #f5f5f5 !important;
+    border-bottom-color: #f2f2f4 !important;
 }
 
 .woocommerce .shop_table td.product-name {
@@ -2712,6 +2715,68 @@ span.stock-status {
     border: 2px solid #61245b;
     color: #fff;
     background-color: #61245b;
+}
+
+.woocommerce .shop_table > thead > tr.table-empty-row, 
+.woocommerce .shop_table > thead > tr.table-empty-row > td ,
+.woocommerce .shop_table > tfoot > tr.table-empty-row, 
+.woocommerce .shop_table > tfoot > tr.table-empty-row > td ,
+.woocommerce .shop_table > tbody > tr.table-empty-row, 
+.woocommerce .shop_table > tbody > tr.table-empty-row > td {
+    border: 0 none;
+    text-align: initial;
+    padding: 10px 0;
+}
+
+.woocommerce .shop_table tr.table-empty-row > td > .table-empty-row-heading {
+  color: #019670;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 30px 0 0px;
+  display: block;
+  text-transform: uppercase;
+  text-align: initial;
+}
+
+.woocommerce .shop_table > thead > tr.table-empty-row:first-child > td ,
+.woocommerce .shop_table > tbody > tr.table-empty-row:first-child > td ,
+.woocommerce .shop_table > tfoot > tr.table-empty-row:first-child > td ,
+.woocommerce .shop_table tr.table-empty-row:first-child > td > .table-empty-row-heading {
+  padding-top: 0px;
+}
+
+@media only screen and (max-width: 768px){
+
+    .woocommerce table.shop_table_responsive tr.table-empty-row td::before, 
+    .woocommerce-page table.shop_table_responsive tr.table-empty-row td::before {
+        display: none;
+    }
+
+    .woocommerce .woocommerce-cart-form .actions .input-text {
+        width: 48% !important;
+    }
+
+    .woocommerce .woocommerce-cart-form .button {
+        padding: 0.75em 0.2em;
+    }
+
+}
+
+.woocommerce .shop_table tr.table-coupon-row > td {
+    background-color: #f2f2f4;
+}
+
+.woocommerce .shop_table td.product-name {
+    font-weight: bold;
+}
+
+.woocommerce .shop_table td.product-name dl.variation {
+    font-size: 13px;
+    font-weight: normal;
+}
+
+.woocommerce .cart_totals .shop_table tr.order-total .woocommerce-Price-amount {
+    color: #88317f;
 }
 
 /*********************************/
@@ -2834,6 +2899,68 @@ span.stock-status {
 
 
 
+/**********************************/
+.woocommerce  .quantity {
+    overflow: visible;
+    display: block;
+    float: none;    
+    padding: 0 10px;
+}
+
+.woocommerce  .quantity input {
+    background: transparent;
+    border: 1px solid #ddd;
+    float: left;
+    height: 30px;
+    line-height: 28px;
+    outline: 0 none;
+    text-align: center !important;
+    width: 80px;
+    margin: 0 -10px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    color: #000;
+    padding: 0 0 0 15px;
+    z-index: 1;
+    position: relative;
+    background-color: #fff;
+}
+
+.rtl-body .woocommerce .quantity input {
+    float: right
+}
+
+.rtl-body .woocommerce  .quantity input {
+    margin: 0 0 0 10px
+}
+
+.woocommerce  .quantity input:focus,
+.woocommerce  .quantity input:active {
+    -webkit-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.04) inset;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.04) inset
+}
+
+.woocommerce  .quantity input[type="number"] {
+    -moz-appearance: textfield;
+    -webkit-appearance: textfield;
+}
+
+.woocommerce  .quantity .plus,
+.woocommerce  .quantity .minus {
+    box-shadow: none;
+    border-radius: 0;
+    -webkit-transition: 500ms all;
+    -moz-transition: 500ms all;
+    -ms-transition: 500ms all;
+    -o-transition: 500ms all;
+    transition: 500ms all;
+    font-size: 18px;
+    font-weight: 600;
+    z-index: 2;
+    width: 40px;
+    padding: 0;
+}
 
 
 

@@ -76,7 +76,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 				?>
 				<tr class="table-empty-row">
 					<td colspan="6">
-						<span><?php echo $this_term->name;?></span>
+						<span class="table-empty-row-heading"><?php echo $this_term->name;?></span>
 					</td>
 				</tr>
 				<tr class="table-thead">
@@ -186,7 +186,7 @@ do_action( 'woocommerce_before_cart' ); ?>
 				</td>
 			</tr>
 
-			<tr>
+			<tr class="table-coupon-row">
 				<td colspan="6" class="actions">
 
 					<?php if ( wc_coupons_enabled() ) { ?>
