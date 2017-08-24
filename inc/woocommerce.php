@@ -513,39 +513,69 @@ class SedShopWoocommerceShortcodes{
 
     public static function cart_icon(){
 
+        ob_start();
         ?>
-        <div class="sed-menu-item-cart menu-item menu-item-has-children dropdown menu-flyout" >
 
-            <?php
-            $count = WC()->cart->cart_contents_count;
-            ?>
-            <a class="cart-contents dropdown-toggle item-menu-toggle" data-toggle="dropdown" href="<?php echo WC()->cart->get_cart_url(); ?>" title="<?php _e( 'View your shopping cart' ); ?>">
-                <?php
-                if ( $count > 0 ) {
-                    ?>
-                    <span class="cart-contents-count"><?php echo esc_html( $count ); ?></span>
-                    <?php
-                }
-                ?>
-                <span class="ef ef-shopping-cart menu-item-icon"></span>
-            </a>
+        <div class="navigation-wrapper woocommerce-mini-cart-wrapper module module-menu module-menu-skin-defult">
+            <div class="navigation-wrapper-inner">
 
-            <span class=" sed-menu-arrow fa fa-angle-down dropdown-toggle" data-toggle="dropdown"></span>
-
-            <ul class="dropdown-menu">
-                <li>
-                    <div class="shopping_cart_in_menu">
-                        <div class="hide_cart_widget_if_empty">
-                            <div class="widget_shopping_cart_content">
-
-                            </div>
-                        </div>
+                <div class="navbar-toggle-wrap">
+                    <div class="navbar-toggle">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span> 
+                        <span class="icon-bar"></span> 
                     </div>
-                </li>
-            </ul>
+                    <span class="navbar-header-title">Menu</span>
+                </div>   
 
+                <div class="navbar-wrap">
+                    <nav class="navbar-wrap-inner">
+                        <div class="menu-cart-container">
+                            <ul id="menu-cart" class="menu">
+
+                            <li class="menu-item menu-item-has-children">         
+
+                                <?php
+                                $count = WC()->cart->cart_contents_count;
+                                ?>
+                                <a class="cart-contents" href="<?php echo WC()->cart->get_cart_url(); ?>" title="<?php _e( 'View your shopping cart' ); ?>">
+                                    <?php
+                                    if ( $count > 0 ) {
+                                        ?>
+                                        <span class="cart-contents-count"><?php echo esc_html( $count ); ?></span>
+                                        <?php
+                                    }
+                                    ?>
+                                    <!--<span class="fa fa-shopping-cart menu-item-icon"></span>-->
+                                </a>
+
+                                <ul class="sub-menu">
+                                    <li class="menu-item"> <?php echo woocommerce_mini_cart();?>
+
+                                        <!--<div class="shopping_cart_in_menu">
+                                            <div class="hide_cart_widget_if_empty">
+                                                <div class="widget_shopping_cart_content">
+
+                                                </div>
+                                            </div>
+                                        </div>-->
+
+                                    </li>
+                                </ul>
+                            </li>
+
+                            </ul>
+                        </div>         
+                    </nav>
+                </div>
+
+            </div>
         </div>
+
         <?php
+        $content = ob_get_clean();
+
+        return $content;
 
     }
 

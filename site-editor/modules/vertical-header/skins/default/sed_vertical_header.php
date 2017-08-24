@@ -15,7 +15,7 @@
                                 'theme_location'    => 'services',
                                 'container'         => '',
                                 'items_wrap'        => '%3$s' ,
-                                'after'             => '<div class="menu-toggle-oc">Toggle</div>'
+                                'after'             => '<div class="menu-toggle-oc"></div>'
                             )
                         );
 
