@@ -1180,6 +1180,43 @@ body .product-cat-justified .tg-cats-holder {
     display: inline-block;
 }
 
+@media screen and (max-width: 910px){
+    #header-elements-row {
+        display: none !important;
+    } 
+    .module-header .header-logo img {
+        max-width: 55px;
+        height: auto;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 910px){ 
+
+  .navigation-wrapper.module.module-menu.module-menu-skin-defult {
+      padding: 38px 0 0;
+  }
+
+}
+
+/*************************/
+
+@media screen and (min-width: 911px){
+
+    body .navigation-wrapper .navbar-wrap #menu-tanin > li > a {
+        text-transform: uppercase;
+    }
+
+    body .navigation-wrapper .navbar-wrap #menu-tanin > li > a:after {
+        content: ".";
+        margin-left: 30px;
+    }
+
+    body .navigation-wrapper .navbar-wrap #menu-tanin > li:last-child > a:after {
+        display: none;
+    }
+
+}
+
 /*****************/
 
 body .navigation-wrapper.woocommerce-mini-cart-wrapper .navbar-wrap ul li .cart-contents {
