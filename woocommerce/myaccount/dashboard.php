@@ -34,9 +34,9 @@ $customer  = new WC_Customer( $current_user->ID );
 
 //var_dump( $customer );
 
-$gender 	= get_user_meta( $current_user->ID, 'billing_myfield6', true );
+$gender 	= get_user_meta( $current_user->ID, 'billing_myfield13', true );
 $mobile 	= get_user_meta( $current_user->ID, 'billing_myfield12', true );
-$birthday 	= get_user_meta( $current_user->ID, 'billing_myfield7', true );
+$birthday 	= get_user_meta( $current_user->ID, 'billing_myfield14', true );
 
 //$subscriber = mailster('subscribers')->get_by_wpid( $current_user->ID );
 
@@ -100,6 +100,8 @@ $states      = WC()->countries->get_states( $current_cc );
 
 					<ul>
 
+						<li> <span class="info-label"><?php _e( "Subscription:" , "sed-shop" );?></span> <span class="info-value"><?php if( tanin_is_user_subscription() ) echo esc_html__( "Yes" , "tanin" ); else echo esc_html__( "No" , "tanin" );?></span> </li>
+
 						<li> <span class="info-label"><?php _e( "Birthday:" , "sed-shop" );?></span> <span class="info-value"><?php echo esc_html( $birthday );?></span> </li>
 
 						<?php
@@ -107,7 +109,7 @@ $states      = WC()->countries->get_states( $current_cc );
 						$address .= $customer->get_billing_city ();
 						?>
 
-						<li> <span class="info-label"><?php _e( "Address:" , "sed-shop" );?></span> <span class="info-value"><?php echo $address;?></span> </li>
+						<li> <span class="info-label"><?php _e( "Address:" , "sed-shop" );?></span> <span class="info-value"><?php echo $customer->get_billing_address();?></span> </li>
 
 					</ul>
 

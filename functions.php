@@ -167,7 +167,7 @@ function tanin_register_theme_fields( $fields ){
 //add_filter( "sed_theme_options_fields_filter" , 'tanin_register_theme_fields' , 10000 );
 
 
-//add_action( 'pre_get_posts', 'tanin_per_page_query' );
+add_action( 'pre_get_posts', 'tanin_per_page_query' );
 /**
  * Customize category query using pre_get_posts.
  *
@@ -179,7 +179,13 @@ function tanin_register_theme_fields( $fields ){
  */
 function tanin_per_page_query( $query ) {
 
-    $taxonomy = is_tax() ? get_queried_object()->taxonomy:"";
+    $is_blog = ( is_home() && is_front_page() ) || ( is_home() && !is_front_page() );
+
+    if ( $query->is_main_query() && ! $query->is_feed() && ! is_admin() && ( is_category() || is_tag() || $is_blog )  ) {
+        $query->set( 'posts_per_page', '2' ); //Change this number to anything you like.
+    }
+
+    /*$taxonomy = is_tax() ? get_queried_object()->taxonomy:"";
 
     $is_taxonomy = in_array( $taxonomy , array( 'product-category'  ) );
 
@@ -199,7 +205,7 @@ function tanin_per_page_query( $query ) {
 
     if ( $query->is_main_query() && ! $query->is_feed() && ! is_admin() && $is_post_type && is_post_type_archive() ) {
         $query->set( 'posts_per_page', '80' ); //Change this number to anything you like.
-    }
+    }*/
 
 }
 
