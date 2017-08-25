@@ -1,34 +1,58 @@
 <div <?php echo $sed_attrs; ?> class="module module-terms module-terms-default <?php echo $class; ?> ">
+	<div class="module-terms-inner">
+	    <?php
 
-    <?php
-    if( $show_title && !empty( $terms ) ) {
-        ?>
-        <div class="terms-entry-title"><?php echo $title;?></div>
-        <?php
-    }
+	    if( $show_title && !empty( $terms ) ) {
 
-    if ( !empty( $terms ) ){
+	        ?>
+			<div class="header-terms">
+		        <div class="terms-entry-title"><h4><?php echo $fiter_title .' ';?></h4></div>
+		    </div>
+	        <?php
 
-        ?>
+	    }
 
-        <ul>
+	    if ( !empty( $terms ) ){
 
-            <?php
-            // Start the Loop.
-            foreach( $terms AS $term ){
+	        ?>
 
-                include dirname(__FILE__) . '/content.php';
+	        <div class="content-terms">
 
-            }
+		        <div class="row">
 
-            ?>
+		            <?php
 
-        </ul>
+		            $number = 0;
+		            // Start the Loop.
+		            foreach( $terms AS $term ){
 
-        <?php
+		            	//var_dump($number % 5 == 0);
 
-    }
+		            	if( $number == 0 ) {
+			            	?> <div class="col-sm-3"> <?php
+		            	} else if($number % 5 == 0) {
+		            		?> </div><div class="col-sm-3"> <?php
+		            	}
 
-    ?>
-    
+		                include dirname(__FILE__) . '/content.php';
+
+		                $number++;
+
+		            }
+
+		            ?>
+
+		            </div>
+
+		        </div>
+
+	        </div>
+
+	        <?php
+
+	    }
+
+	    ?>
+	    
+	</div>
 </div>

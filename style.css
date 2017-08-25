@@ -142,6 +142,11 @@ body input[type="submit"] {
     line-height: 14px;
 }
 
+body button a, 
+body input[type="button"] a, 
+body input[type="submit"] a {
+    color: #fff !important;
+}
 
 h5, .main-navigation ul ul a, .site-title, .page .panel-content .recent-posts .entry-title, .page .panel-content .entry-title, .page-title, body.page:not(.twentyseventeen-front-page) .entry-title, .entry-meta, .entry-footer .cat-links, .entry-footer .tags-links, .nav-subtitle, .comment-metadata, h2.widget-title, .widget_rss .rss-date, .widget_rss li cite, .site-content .wp-playlist-current-item .wp-playlist-item-artist, .twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel .twentyseventeen-panel-title, .sed-app-editor.twentyseventeen-front-page .twentyseventeen-panel .twentyseventeen-panel-title {
     /*letter-spacing: 0;*/
@@ -1023,26 +1028,50 @@ a:active {
 
 /******************************/
 
-.module.module-terms.module-terms-default ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 10px 0;
+.module.module-terms.module-terms-default .header-terms {
+    cursor: pointer;
 }
 
-.module.module-terms.module-terms-default ul .entry-item.active a ,
-.module.module-terms.module-terms-default ul .entry-item a {
+.module.module-terms.module-terms-default .header-terms .terms-entry-title h4 {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    font-size: 17px;
+}
+
+.module.module-terms.module-terms-default .header-terms h4:after {
+    content: "\f107";
+    font-family: FontAwesome;
+    padding: 3px 10px;
+    font-size: 24px;
+    font-weight: normal;
+    float: right;
+    line-height: 0.6em;
+}
+
+.module.module-terms.module-terms-default .header-terms.ui-accordion-header-active h4:after {
+    content: "\f106";
+}
+
+.module.module-terms.module-terms-default .content-terms {
+    margin: 0;
+    padding: 10px 0 0;
+}
+
+.module.module-terms.module-terms-default .content-terms .entry-item.active a ,
+.module.module-terms.module-terms-default .content-terms .entry-item a {
     padding: 3px 10px;
     display: block;
     -webkit-transition: background 0.2s;
     transition: background 0.2s;
+    font-size: 14px;
 }
 
-.module.module-terms.module-terms-default ul .entry-item:hover a {
+.module.module-terms.module-terms-default .content-terms .entry-item.active a ,
+.module.module-terms.module-terms-default .content-terms .entry-item:hover a {
     background-color: #b27bb2;
     color: #fff;
 }
-
-
 
 /**
  *
@@ -2682,7 +2711,8 @@ span.stock-status {
     top: 0;
     left: auto;
     right: 0; 
-    margin: 3px;
+    margin: 3px;    
+    overflow: hidden;
 }
 
 .rtl .woocommerce .woocommerce-product-gallery__trigger {
@@ -3118,10 +3148,6 @@ body.woocommerce-account .woo-box-heading-elements-content ul .info-label {
 body.woocommerce-account .woo-box-heading-elements-content ul .info-value {
     font-size: 14px;
     color: #777;
-}
-
-body.woocommerce-account .user-info-buttons button a {
-    color: #fff;
 }
 
 

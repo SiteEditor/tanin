@@ -9,9 +9,6 @@
 
         var $rtl = ( $("body").hasClass("rtl-body") ) ? true : false;
 
-
-/***************************************************************************************************************************************/
-
         /**
          * Vertical Menu Accordion
          */
@@ -112,8 +109,25 @@
             icons           :false
         });
 
-        console.log(_faqAccordionEl);
 
+        /**
+         * Terms Accordion
+         */
+
+        var _termsAccordionEl = $(".module-terms-inner");
+
+        _termsAccordionEl.accordion({
+            heightStyle     : "content",
+            header          : ".header-terms",
+            collapsible     : true,
+            active          : false,
+            collapsible     : true,
+            icons           : false
+        });
+
+       // console.log(_termsAccordionEl);
+
+    
         /**
          * Single Products
          */

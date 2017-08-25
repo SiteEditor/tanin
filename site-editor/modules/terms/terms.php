@@ -90,6 +90,10 @@ class PBTermsShortcode extends PBShortcodeClass{
                     'child_of'          => $current_term->parent
                 );
 
+                $parent_term = get_term( $current_term->parent);
+
+                $fiter_title = $parent_term->name;
+
 
             }else{
 
@@ -99,6 +103,8 @@ class PBTermsShortcode extends PBShortcodeClass{
                     'hierarchical'      => false,
                     'child_of'          => 0
                 );
+
+                $fiter_title = $title;
 
             }
 
@@ -124,6 +130,8 @@ class PBTermsShortcode extends PBShortcodeClass{
         $vars["is_tax"] = $is_tax ;
 
         $vars["terms"] = $terms ;
+
+        $vars["fiter_title"] = $fiter_title;
 
         $this->set_vars( $vars );
 
