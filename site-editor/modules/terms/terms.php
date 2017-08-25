@@ -69,6 +69,12 @@ class PBTermsShortcode extends PBShortcodeClass{
 
         }
 
+        if( $post_type == "post" && ! is_front_page() && is_home() ) {
+
+            $is_post_type_archive = true;
+
+        }
+
         if( ( $is_tax || $is_post_type_archive ) && $taxonomy && ! $product_has_child ){
 
             if( $is_tax ) {
