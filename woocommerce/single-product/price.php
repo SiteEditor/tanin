@@ -20,7 +20,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-global $product; 
+global $product;
 
-?>
-<div class="price"><?php echo $product->get_price_html(); ?></div>
+$type = $product->get_type();
+
+$is_simple_free = false;
+
+if( $type == "simple" ){
+
+	if( !$product->get_regular_price() ){
+
+		$is_simple_free = true;
+
+	}
+
+}
+
+if( !$is_simple_free ) {
+	?>
+	<div class="price"><?php echo $product->get_price_html(); ?></div>
+	<?php
+}

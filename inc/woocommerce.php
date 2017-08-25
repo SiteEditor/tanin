@@ -1027,7 +1027,7 @@ function tanin_is_user_subscription(){
 
     $has_subscription = $query->post_count > 0 ? true : $has_subscription;
 
-    return $has_subscription;
+    return $has_subscription; 
 
 }
 

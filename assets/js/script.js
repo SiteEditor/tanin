@@ -128,7 +128,8 @@
 
             if( $conetntForm.length > 0 ) {
 
-                var fields = $(".product-options .product-option-value").serializeArray(),
+                var $fields = $(".product-options .product-option-value"),
+                    fields = $fields.serializeArray()
                     $labels = $(".product-options .product-option-label"),
                     $html = '';
 
@@ -136,7 +137,17 @@
 
                 $.each(fields, function (index, val) {
 
-                    $html += '<div class="tanin-form-item-content"><span class="input-label">' + $labels.eq( index ).text() + ': </span><span class="input-val">' + val.value + '</span></div>';
+                    var currField = $fields.eq( index ),
+                        tagName = currField.prop("tagName"),
+                        $value = val.value;
+
+                    if( tagName.toLowerCase() == "select" ){
+
+                        $value = currField.find("option:selected").text();
+
+                    }
+
+                    $html += '<div class="tanin-form-item-content"><span class="input-label">' + $labels.eq( index ).text() + ': </span><span class="input-val">' + $value + '</span></div>';
 
                 });
 

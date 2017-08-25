@@ -88,7 +88,7 @@ if ( $product->is_in_stock() ) : ?>
 
 								<h4><?php echo __('For use our Site Features you need to buy a subscription', 'tanin'); ?></h4>
 
-								<button type="button" class="button"> <?php echo __('Register', 'tanin'); ?> </button>
+								<button type="button" class="button"> <a href="<?php echo esc_url( site_url( '/#subscription-wrap-module' ) );?>"> <?php echo __('Register', 'tanin'); ?> </a></button>
 
 							</div>
 
