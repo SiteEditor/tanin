@@ -18,7 +18,7 @@ $classes = array(
     'image-content-box'
 );
 
-$excerpt_length = 600;
+$excerpt_length = 550;
 
 $content_post = apply_filters('the_excerpt', get_the_excerpt()); //var_dump($content_post);
 

@@ -33,8 +33,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="u-column1 col-1">
 
 <?php endif; ?>
-
-		<!--<h2><?php //_e( 'Login', 'woocommerce' ); ?></h2>-->
+		<div class="login-header text-center">
+			<h2><span class="text-first-main"><?php _e( 'Login', 'woocommerce' ); ?></span></h2>
+			<div class="general-separator"> </div>
+			<br>
+		</div>
 
 		<form class="woocomerce-form woocommerce-form-login login" method="post">
 
