@@ -994,9 +994,40 @@ if( class_exists( 'WooCommerce_Product_Options' ) ){
 
 function tanin_is_user_subscription(){
 
-    
-    
-    return true;
+    $has_subscription = false;
+
+    if( !is_user_logged_in() ){
+
+        return $has_subscription;
+
+    }
+
+    $current_user = wp_get_current_user();
+
+    $customer_id  = $current_user->ID;
+
+    $args = array(
+        'post_type'         => YWSBS_Subscription()->post_type_name,
+        'posts_per_page'    => -1,
+        'post_status'       => 'publish',
+        'meta_query'        => array(
+            'relation'      => 'AND',
+            array(
+                'key'       => '_status',
+                'value'     => 'active'
+            ),
+            array(
+                'key'       => '_user_id',
+                'value'     => $customer_id
+            ),
+        ),
+    );
+
+    $query = new WP_Query( $args );
+
+    $has_subscription = $query->post_count > 0 ? true : $has_subscription;
+
+    return $has_subscription;
 
 }
 
