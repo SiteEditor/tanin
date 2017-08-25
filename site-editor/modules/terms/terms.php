@@ -47,9 +47,9 @@ class PBTermsShortcode extends PBShortcodeClass{
 
         extract( $atts );
 
-        $terms = array();
+        $terms = array(); 
 
-        $is_tax = $taxonomy && is_tax( $taxonomy );
+        $is_tax = $taxonomy && ( is_tax( $taxonomy ) || ( $taxonomy == "category" && is_category() ) );
 
         $is_post_type_archive = $post_type && is_post_type_archive( $post_type );
 
@@ -75,6 +75,8 @@ class PBTermsShortcode extends PBShortcodeClass{
 
         }
 
+        $fiter_title = $title;
+
         if( ( $is_tax || $is_post_type_archive ) && $taxonomy && ! $product_has_child ){
 
             if( $is_tax ) {
@@ -90,9 +92,11 @@ class PBTermsShortcode extends PBShortcodeClass{
                     'child_of'          => $current_term->parent
                 );
 
-                $parent_term = get_term( $current_term->parent);
+                if( $current_term->parent > 0 && $parent_term = get_term( $current_term->parent) ) {
 
-                $fiter_title = $parent_term->name;
+                    $fiter_title = $parent_term->name;
+
+                }
 
 
             }else{
@@ -103,8 +107,6 @@ class PBTermsShortcode extends PBShortcodeClass{
                     'hierarchical'      => false,
                     'child_of'          => 0
                 );
-
-                $fiter_title = $title;
 
             }
 
