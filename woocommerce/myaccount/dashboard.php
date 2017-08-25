@@ -48,106 +48,108 @@ $states      = WC()->countries->get_states( $current_cc );
 ?>
 
 <div class="woocommerce-user-dashboard">
+	<div class="woo-box-wrapper">
 
-	<div class="divider-heading elements-heading ">
+		<div class="woo-box-heading elements-heading ">
 
-		<span class="divider-content">
+			<span class="woo-box-content">
 
-			<span class="heading-box"><?php _e( "Customer Information" , "sed-shop" );?></span>
+				<span class="heading-box"><?php _e( "Customer Information" , "sed-shop" );?></span>
 
-			<a class="edit-account" href="<?php echo esc_url( wc_get_endpoint_url( 'edit-address' , 'billing' , wc_get_page_permalink( 'myaccount' ) ) );?>">
-				<?php _e( "Edit Account Info" , "sed-shop" );?>
-			</a>
+				<a class="edit-account" href="<?php echo esc_url( wc_get_endpoint_url( 'edit-address' , 'billing' , wc_get_page_permalink( 'myaccount' ) ) );?>">
+					<span><?php _e( "Edit Account Info" , "sed-shop" );?></span>
+				</a>
 
-		</span>
+			</span>
 
-	</div>
+		</div>
 
-	<div class="divider-heading-elements-content user-info">
+		<div class="woo-box-heading-elements-content user-info"> 
 
-		<div class="row">
+			<div class="row">
 
-			<div class="col-sm-4">
+				<div class="col-sm-4">
 
-				<ul>
+					<ul>
 
-					<li> <span class="info-label"><?php _e( "Full Name:" , "sed-shop" );?></span> <span class="info-value"><?php echo $customer->get_first_name() . " " . $customer->get_last_name();?></span></li>
+						<li> <span class="info-label"><?php _e( "Full Name:" , "sed-shop" );?></span> <span class="info-value"><?php echo $customer->get_first_name() . " " . $customer->get_last_name();?></span></li>
 
-					<li> <span class="info-label"><?php _e( "Phone Number:" , "sed-shop" );?></span> <span class="info-value"><?php echo $customer->get_billing_phone();?></span> </li>
+						<li> <span class="info-label"><?php _e( "Phone Number:" , "sed-shop" );?></span> <span class="info-value"><?php echo $customer->get_billing_phone();?></span> </li>
 
-					<li> <span class="info-label"><?php _e( "Mobile:" , "sed-shop" );?></span> <span class="info-value"><?php echo esc_html( $mobile );?></span> </li>
+						<li> <span class="info-label"><?php _e( "Mobile:" , "sed-shop" );?></span> <span class="info-value"><?php echo esc_html( $mobile );?></span> </li>
 
-				</ul>
+					</ul>
+
+				</div>
+
+				<div class="col-sm-4">
+
+					<ul>
+
+						<li> <span class="info-label"><?php _e( "Gender:" , "sed-shop" );?></span> <span class="info-value"><?php echo esc_html( $gender );?></span> </li>
+
+						<li> <span class="info-label"><?php _e( "Email:" , "sed-shop" );?></span> <span class="info-value"><?php echo $customer->get_email();?></span></li>
+
+						<li> <span class="info-label"><?php _e( "User Name:" , "sed-shop" );?></span> <span class="info-value"><?php echo $current_user->user_login;?></span></li>
+
+					</ul>
+
+				</div>
+
+				<div class="col-sm-4">
+
+					<ul>
+
+						<li> <span class="info-label"><?php _e( "Birthday:" , "sed-shop" );?></span> <span class="info-value"><?php echo esc_html( $birthday );?></span> </li>
+
+						<?php
+						$address = ( isset( $states[$customer->get_billing_state()] ) ) ? $states[$customer->get_billing_state()] . " - " : "";
+						$address .= $customer->get_billing_city ();
+						?>
+
+						<li> <span class="info-label"><?php _e( "Address:" , "sed-shop" );?></span> <span class="info-value"><?php echo $address;?></span> </li>
+
+					</ul>
+
+				</div>
 
 			</div>
 
-			<div class="col-sm-4">
+			<div class="user-info-buttons text-right">
 
-				<ul>
+				<button class="secondary" type="button"><a class="custom-btn custom-btn-primary" href="<?php echo esc_url( wc_get_endpoint_url( 'edit-address' , 'billing' , wc_get_page_permalink( 'myaccount' ) ) );?>"><?php _e( "Edit Account Info" , "sed-shop" );?></a></button>
 
-					<li> <span class="info-label"><?php _e( "Gender:" , "sed-shop" );?></span> <span class="info-value"><?php echo esc_html( $gender );?></span> </li>
-
-					<li> <span class="info-label"><?php _e( "Email:" , "sed-shop" );?></span> <span class="info-value"><?php echo $customer->get_email();?></span></li>
-
-					<li> <span class="info-label"><?php _e( "User Name:" , "sed-shop" );?></span> <span class="info-value"><?php echo $current_user->user_login;?></span></li>
-
-				</ul>
-
-			</div>
-
-			<div class="col-sm-4">
-
-				<ul>
-
-					<li> <span class="info-label"><?php _e( "Birthday:" , "sed-shop" );?></span> <span class="info-value"><?php echo esc_html( $birthday );?></span> </li>
-
-					<?php
-					$address = ( isset( $states[$customer->get_billing_state()] ) ) ? $states[$customer->get_billing_state()] . " - " : "";
-					$address .= $customer->get_billing_city ();
-					?>
-
-					<li> <span class="info-label"><?php _e( "Address:" , "sed-shop" );?></span> <span class="info-value"><?php echo $address;?></span> </li>
-
-				</ul>
+				<button class="secondary" type="button"><a class="custom-btn custom-btn-primary" href="<?php echo esc_url( wc_get_endpoint_url( 'edit-account' , '' , wc_get_page_permalink( 'myaccount' ) ) );?>"><?php _e( "Change Password" , "sed-shop" );?></a></button>
 
 			</div>
 
 		</div>
 
-		<div class="row user-info-buttons">
+		<?php
+			/**
+			 * My Account dashboard.
+			 *
+			 * @since 2.6.0
+			 */
+			do_action( 'woocommerce_account_dashboard' );
 
-			<a class="custom-btn custom-btn-primary" href="<?php echo esc_url( wc_get_endpoint_url( 'edit-address' , 'billing' , wc_get_page_permalink( 'myaccount' ) ) );?>"><?php _e( "Edit Account Info" , "sed-shop" );?></a>
+			/**
+			 * Deprecated woocommerce_before_my_account action.
+			 *
+			 * @deprecated 2.6.0
+			 */
+			do_action( 'woocommerce_before_my_account' );
 
-			<a class="custom-btn custom-btn-primary" href="<?php echo esc_url( wc_get_endpoint_url( 'edit-account' , '' , wc_get_page_permalink( 'myaccount' ) ) );?>"><?php _e( "Change Password" , "sed-shop" );?></a>
+			/**
+			 * Deprecated woocommerce_after_my_account action.
+			 *
+			 * @deprecated 2.6.0
+			 */
+			do_action( 'woocommerce_after_my_account' );
 
-		</div>
+		/* Omit closing PHP tag at the end of PHP files to avoid "headers already sent" issues. */
+		?>
 
 	</div>
-
-	<?php
-		/**
-		 * My Account dashboard.
-		 *
-		 * @since 2.6.0
-		 */
-		do_action( 'woocommerce_account_dashboard' );
-
-		/**
-		 * Deprecated woocommerce_before_my_account action.
-		 *
-		 * @deprecated 2.6.0
-		 */
-		do_action( 'woocommerce_before_my_account' );
-
-		/**
-		 * Deprecated woocommerce_after_my_account action.
-		 *
-		 * @deprecated 2.6.0
-		 */
-		do_action( 'woocommerce_after_my_account' );
-
-	/* Omit closing PHP tag at the end of PHP files to avoid "headers already sent" issues. */
-	?>
-
 </div>
 
