@@ -48,15 +48,49 @@ do_action( 'woocommerce_before_cart' ); ?>
 
 				if( !empty( $terms ) ){
 
+					$terms_ids = wp_list_pluck( $terms, 'term_id' );
+
+					$parent_terms = array();
+
 					foreach ( $terms AS $term ){
 
-						if( !isset( $cart_items_group["term_".$term->term_id] ) ){
-							$cart_items_group["term_".$term->term_id] = array();
+						$parent_term = tanin_check_exist_parent_term( $term , $terms_ids );
+
+						if( $parent_term ){
+							array_push( $parent_terms , $parent_term );
 						}
 
-						$cart_items_group["term_".$term->term_id][$cart_item_key] = $cart_item;
+					}
 
-						$all_terms["term_".$term->term_id] = $term;
+					if( !empty( $parent_terms ) ) {
+
+						$new_terms_ids = array();
+
+						foreach ($terms_ids AS $key => $term_id) {
+
+							if ( !in_array($term_id, $parent_terms) ) {
+
+								array_push($new_terms_ids, $term_id);
+
+							}
+
+						}
+
+					}else{
+
+						$new_terms_ids = $terms_ids;
+
+					}
+
+					foreach ( $new_terms_ids AS $term_id ){
+
+						if( !isset( $cart_items_group["term_".$term_id] ) ){
+							$cart_items_group["term_".$term_id] = array();
+						}
+
+						$cart_items_group["term_".$term_id][$cart_item_key] = $cart_item;
+
+						$all_terms["term_".$term_id] = get_term( $term_id );
 
 					}
 

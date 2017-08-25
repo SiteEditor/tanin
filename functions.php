@@ -250,6 +250,24 @@ function tanin_go_to_services(){
 
 add_action( "wp" , "tanin_go_to_services" );
 
+function tanin_check_exist_parent_term( $term , $list ){
+
+    if( !$term->parent ){
+
+        return false;
+
+    }
+
+    if( in_array( $term->parent , $list ) ){
+
+        return $term->parent;
+
+    }
+
+    return tanin_check_exist_parent_term( get_term( $term->parent ) , $list );
+
+}
+
 /**
  * Site Editor Shop WooCommerce
  */
