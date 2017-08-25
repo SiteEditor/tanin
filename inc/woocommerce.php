@@ -116,6 +116,7 @@ class SedShopWoocommerceSingleProductModule{
 
     public static function start_heading(){
         ?>
+            <div class="hide"><?php the_content();?></div>
             <div class="product-heading-wrap">
         <?php
     }
