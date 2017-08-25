@@ -31,7 +31,11 @@ class SedShopWooCommerce{
 
         $this->remove_breadcrumb();
 
+        global $woocommerce_product_options_checkout;
 
+        remove_action( 'woocommerce_add_order_item_meta', array( $woocommerce_product_options_checkout, 'woocommerce_add_order_item_meta' ), 10 );
+
+        add_action( 'woocommerce_new_order_item ' , array( $woocommerce_product_options_checkout, 'woocommerce_add_order_item_meta' ) , 10 , 3 );
 
     }
 
@@ -416,6 +420,165 @@ class sedShopWoocommerceMyAccountModule{
         //add_filter( "sed_theme_options_fields_filter" , array( $this , 'register_theme_fields' ) );
 
         //add_filter( "woocommerce_process_registration_errors" , array( $this , "validation_error" ) , 100 , 1 );
+
+        add_filter( 'woocommerce_account_menu_items', array( $this , 'account_navigation_tems' ) , 100 , 1 );
+
+        add_filter( 'woocommerce_my_account_edit_address_title', array( $this , 'edit_address_page_title' ) , 100 , 2 );
+
+        add_action( 'woocommerce_add_to_cart', array( $this, 'direct_order' ), 1000, 6 );
+
+        add_action( 'wp_loaded', array( __CLASS__, 'add_to_cart_action' ), 19 );
+
+        add_filter( 'woocommerce_add_to_cart_validation' , array( __CLASS__, 'add_to_cart_validation' ), 1000 , 2 );
+
+    }
+
+    public static function add_to_cart_validation( $validate , $product_id ){
+
+        $tanin_product_type = get_post_meta( $product_id , 'wpcf-sed-product-tanin-type' , true );
+
+        if ( in_array( $tanin_product_type , array( 'online' , 'reservation' ) ) && !tanin_is_user_subscription() ) {
+
+            $validate = false;
+
+            wc_add_notice(__('For use our Site Features you need to buy a subscription', 'woocommerce'), 'error');
+
+        }
+
+        return $validate;
+
+    }
+
+    public static function add_to_cart_action(){
+
+        if ( empty( $_REQUEST['add-to-cart'] ) || ! is_numeric( $_REQUEST['add-to-cart'] ) ) {
+            return;
+        }
+
+        if ( empty( $_REQUEST['add-to-cart-direct-order'] ) || $_REQUEST['add-to-cart-direct-order'] != "yes" ) {
+            return;
+        }
+
+        //Empty Cart before add reservation product to cart
+        WC()->cart->empty_cart();
+
+    }
+
+    public function direct_order( $cart_item_key, $product_id, $quantity, $variation_id, $variation, $cart_item_data  ){
+
+        if ( empty( $_REQUEST['add-to-cart'] ) || ! is_numeric( $_REQUEST['add-to-cart'] ) ) {
+            return;
+        }
+
+        if ( empty( $_REQUEST['add-to-cart-direct-order'] ) || $_REQUEST['add-to-cart-direct-order'] != "yes" ) {
+            return;
+        }
+
+        if( !is_user_logged_in() ){
+            return;
+        }
+
+        //var_dump( $cart_item_data );
+
+        //exit();
+
+        $current_user = wp_get_current_user();
+
+        $customer_id  = $current_user->ID;//new WC_Customer( $current_user->ID );
+
+        $address = apply_filters( 'woocommerce_my_account_my_address_formatted_address', array(
+            'first_name'  => get_user_meta( $customer_id, 'billing_first_name', true ),
+            'last_name'   => get_user_meta( $customer_id, 'billing_last_name', true ),
+            'company'     => get_user_meta( $customer_id, 'billing_company', true ),
+            'address_1'   => get_user_meta( $customer_id, 'billing_address_1', true ),
+            'address_2'   => get_user_meta( $customer_id, 'billing_address_2', true ),
+            'city'        => get_user_meta( $customer_id, 'billing_city', true ),
+            'state'       => get_user_meta( $customer_id, 'billing_state', true ),
+            'postcode'    => get_user_meta( $customer_id, 'billing_postcode', true ),
+            'country'     => get_user_meta( $customer_id, 'billing_country', true ),
+        ), $customer_id, 'billing' );
+
+        // Now we create the order
+        $order = wc_create_order(array(
+            'customer_id'   => $customer_id,
+        ));
+
+
+        $item_id = $order->add_product( wc_get_product( $product_id ), $quantity ,
+            array(
+                'product_id'    => $product_id,
+                'variation_id'  => $variation_id,
+                'variation'     => $variation,
+                'quantity'      => $quantity,
+                'data'          => $cart_item_data
+            )
+            /*array_merge( $cart_item_data , array(
+                    'product_id'   => $product_id,
+                    'variation_id' => $variation_id,
+                    'variation'    => $variation,
+                    'quantity'     => $quantity,
+                )
+            )*/
+        );
+
+        //add Item Meta to order
+        $this->woocommerce_add_order_item_meta_action( $item_id, $cart_item_data );
+
+        // Set addresses
+        $order->set_address( $address, 'billing' );
+        //$order->set_address( $address, 'shipping' );
+
+        // Set payment gateway
+        $payment_gateways = WC()->payment_gateways->payment_gateways();
+
+        $order->set_payment_method( $payment_gateways['cod'] );
+
+        // Calculate totals
+        $order->calculate_totals();
+
+        //$order->update_status( 'pending' , 'Order created dynamically - ', TRUE);
+
+        WC()->cart->empty_cart();
+
+        wp_safe_redirect( $order->get_view_order_url() );
+
+        exit;
+        
+    }
+
+    /**
+     * Adds data to the order
+     */
+    public function woocommerce_add_order_item_meta_action( $item_id, $cart_item ) {
+        if ( !empty( $cart_item[ '_product_options' ] ) ) {
+            foreach ( $cart_item[ '_product_options' ] as $product_option_id =>
+                      $name_and_value ) {
+                $name = $name_and_value[ 'name' ];
+                $value = $name_and_value[ 'value' ];
+                wc_add_order_item_meta( $item_id, $name, $value );
+            }
+        }
+    }
+
+    public function edit_address_page_title( $page_title, $load_address ){
+
+        if( $load_address == "billing" ){
+            $page_title = __('Edit Account Info', 'tanin');
+        }
+
+        return $page_title;
+
+    }
+
+    public function account_navigation_tems( $items ){
+
+        unset( $items['downloads'] );
+
+        $items['edit-account'] = __("Change Password" , "tanin");
+
+        $items['edit-address'] = __( 'Edit Account Info', 'tanin' );
+
+        return $items;
 
     }
 
@@ -831,6 +994,8 @@ if( class_exists( 'WooCommerce_Product_Options' ) ){
 
 function tanin_is_user_subscription(){
 
+    
+    
     return true;
 
 }

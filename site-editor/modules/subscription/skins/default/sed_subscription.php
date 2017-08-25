@@ -24,7 +24,7 @@
 
             while ( $query->have_posts() ) {
 
-                $query->the_post();
+                $query->the_post();  //var_dump( YWSBS_Subscription()->get_subscription_meta( get_the_ID() ) );
 
                 $attachment_id   = get_post_thumbnail_id();
 

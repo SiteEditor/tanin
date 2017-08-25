@@ -86,7 +86,7 @@ if ( $product->is_in_stock() ) : ?>
 
 							<div class="add-to-cart-user_subscription-error">
 
-								<h4><?php echo __('For use Site Features you need buy a subscribe', 'tanin'); ?></h4>
+								<h4><?php echo __('For use our Site Features you need to buy a subscription', 'tanin'); ?></h4>
 
 								<button type="button" class="button"> <?php echo __('Register', 'tanin'); ?> </button>
 
@@ -168,10 +168,18 @@ if ( $product->is_in_stock() ) : ?>
 										 * @since 3.0.0.
 										 */
 										do_action('woocommerce_after_add_to_cart_quantity');
+
+										if ($tanin_product_type == "reservation") {
+
+											?>
+											<input type="hidden" name="add-to-cart-direct-order" value="yes">
+											<?php
+
+										}
 										?>
 
 										<button type="submit" name="add-to-cart" value="<?php echo esc_attr($product->get_id()); ?>"
-												class="single_add_to_cart_button button alt secondary"><?php echo esc_html($product->single_add_to_cart_text()); ?></button>
+												class="single_add_to_cart_button button alt secondary"><?php echo esc_html__("Confirm" , "tanin"); ?></button>
 
 										<?php
 										/**
