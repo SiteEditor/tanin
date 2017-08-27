@@ -97,6 +97,46 @@
 
 
         /**
+         * dialog scrollbar
+         */
+
+        $(".single_open_add_to_cart_dialog").on("click" , function(){
+
+            setTimeout(function(){
+
+                var scrollbarContainer_3        =  $(".add-to-cart-dialog-content-wrap"),
+                    scrollbarContainerHeight_3  =  scrollbarContainer_3.height() + 120,
+                    scrollbarWindowHeight_3     =  $( window ).height(),
+                    scrollbarHeight_3           =  $( window ).height() - 120;
+
+                    console.log(scrollbarContainerHeight_3);
+
+                    if( scrollbarContainerHeight_3 > scrollbarWindowHeight_3 ) {
+
+                        scrollbarContainer_3.css({
+                            height : scrollbarHeight_3 + 'px',
+                        });
+
+
+                        scrollbarContainer_3.mCustomScrollbar({
+                            autoHideScrollbar:true ,
+                            advanced:{
+                                updateOnBrowserResize:true, /*update scrollbars on browser resize (for layouts based on percentages): boolean*/
+                                updateOnContentResize:true,
+                            },
+                            scrollButtons:{
+                                enable:false
+                            },
+                        });
+                        
+                    }
+
+            }, 50);
+
+        });
+
+
+        /**
          * FAQ Accordion
          */
 
@@ -282,17 +322,17 @@
                         }
                     },
                     {
+                        breakpoint: 860,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 3
+                        }
+                    },
+                    {
                         breakpoint: 600,
                         settings: {
                             slidesToShow: 2,
                             slidesToScroll: 2
-                        }
-                    },
-                    {
-                        breakpoint: 480,
-                        settings: {
-                            slidesToShow: 1,
-                            slidesToScroll: 1
                         }
                     }
                     // You can unslick at a given breakpoint now by adding:
