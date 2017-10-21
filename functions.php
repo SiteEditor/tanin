@@ -244,7 +244,7 @@ add_filter( 'sed_google_fonts_filter' , 'tanin_add_google_font' );
 
 function tanin_go_to_services(){
 
-    if( is_post_type_archive( 'services-blog' ) ){
+    if( is_post_type_archive( 'services-blog' ) && !is_admin() ){
 
         wp_safe_redirect( site_url('/tservices') );
 
@@ -281,3 +281,33 @@ require dirname(__FILE__) . '/inc/woocommerce.php';
 
 
 
+
+
+
+
+
+
+
+add_filter( 'woocommerce_currencies', 'add_my_currency' );
+
+function add_my_currency( $currencies ) {
+
+     $currencies['ABC'] = __( 'Rial', 'woocommerce' );
+
+     return $currencies;
+
+}
+
+add_filter('woocommerce_currency_symbol', 'add_my_currency_symbol', 10, 2);
+
+function add_my_currency_symbol( $currency_symbol, $currency ) {
+
+     switch( $currency ) {
+
+         case 'ABC': $currency_symbol = ' Rial'; break;
+
+     }
+
+     return $currency_symbol;
+
+}

@@ -3762,3 +3762,32 @@ body .mCSB_scrollTools_vertical.mCSB_scrollTools_onDrag_expand .mCSB_draggerCont
     font-size: 15px;
     height: 0.5em;
 }
+woocommerce-product-details__short-description
+{
+line-height:100%;
+}
+
+.woocommerce-Price-currencySymbol
+{
+	//    float: left;
+    margin-left: 18px;
+}
+.subscription-wrap .icb-content-inner p
+{
+font-size:0.9em;
+}
+
+.subscription-wrap .icb-subscribe-plan
+{
+font-size:0.9em;
+}
+
+#ourTeam .col-sm-3
+{
+float:none;
+display:inline-block;
+}
+#ourTeam .module-posts-wrap
+{
+text-align:center;
+}

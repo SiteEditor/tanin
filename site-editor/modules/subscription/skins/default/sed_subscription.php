@@ -65,7 +65,7 @@
 
             ?>
 
-            <div class="image-content-box-skin3 col-sm-4">
+            <div class="image-content-box-skin3 col-sm-3">
                 <div class="icb-wrapper">
                     <div class="icb-img">
                     <?php
