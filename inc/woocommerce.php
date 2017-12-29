@@ -357,7 +357,7 @@ class SedShopWoocommerceArchiveModule{
         ?>
 
         <a rel="nofollow" href="<?php echo get_permalink();?>" class="button tanin-more-details-button">
-            <?php echo __("More Details" , "tanin" );?>
+            <?php echo __("Order" , "tanin" );?>
         </a>
 
         <?php
